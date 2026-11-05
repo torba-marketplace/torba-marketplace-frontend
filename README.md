@@ -5,7 +5,7 @@ Frontend for the Torba marketplace. The backend will be a separate Python projec
 | Resource   | Link                                                                                                                                 |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Design     | [Marketplace — Torba](https://www.figma.com/design/imQzlvJcm0EMhvUqr3kQFZ/Marketplace--torba?node-id=0-1&m=dev&t=qPg6j28l1Yd7lLL2-1) |
-| Repository | [https://github.com/torba-marketplace/torba-marketplace-frontend](https://github.com/torba-marketplace/torba-marketplace-frontend)                                                        |
+| Repository | [https://github.com/torba-marketplace/torba-marketplace](https://github.com/torba-marketplace/torba-marketplace)                                                     |
 
 ## What you need
 
