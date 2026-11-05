@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary-50: #fafcff;
+  --color-primary-100: #eef3ff;
+  --color-primary-200: #d9e4ff;
+  --color-primary-300: #afc3f3;
+  --color-primary-400: #9eb5f1;
+  --color-primary-500: #8cabee;
+  --color-primary-600: #4773e4;
+  --color-primary-700: #2459df;
+  --color-primary-800: #1e4bbd;
+  --color-primary-900: #102967;
+
+  --color-dark-100: #f5f6f3;
+  --color-dark-150: #e5ebe5;
+  --color-dark-200: #d2d4d3;
+  --color-dark-300: #a6a9a8;
+  --color-dark-400: #969c98;
+  --color-dark-500: #797d7c;
+  --color-dark-600: #717673;
+  --color-dark-700: #4d5251;
+  --color-dark-800: #202725;
+  --color-dark-900: #1a1f1e;
+
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+
+  --color-green: #3b6b65;
+  --color-accent-green: #3b6b50;
+  --color-white: #ffffff;
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-body);
+
+  --text-display-2xl: 4.5rem;
+  --text-display-2xl--line-height: 5.625rem;
+  --text-display-2xl--letter-spacing: -0.02em;
+  --text-display-xl: 3.75rem;
+  --text-display-xl--line-height: 4.5rem;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 3.75rem;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 2.75rem;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-sm: 1.875rem;
+  --text-display-sm--line-height: 2.375rem;
+  --text-display-xs: 1.5rem;
+  --text-display-xs--line-height: 2rem;
+
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.875rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-md: 1rem;
+  --text-md--line-height: 1.5rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.125rem;
+}
+
+:root {
+  --background: var(--color-canvas);
+  --foreground: var(--color-ink);
+}
+
+@theme inline {
+  --color-canvas: var(--color-dark-100);
+  --color-surface: var(--color-white);
+  --color-surface-muted: var(--color-dark-100);
+  --color-ink: var(--color-dark-800);
+  --color-muted: var(--color-dark-600);
+  --color-border: var(--color-dark-200);
+  --color-brand: var(--color-primary-700);
+  --color-brand-hover: var(--color-primary-800);
+  --color-brand-muted: var(--color-primary-100);
+  --color-brand-subtle: var(--color-primary-50);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}

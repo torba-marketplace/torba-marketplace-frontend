@@ -1,0 +1,122 @@
+{
+  "brand": {
+    "name": "Torba"
+  },
+  "nav": {
+    "home": "Головна",
+    "catalog": "Каталог",
+    "checkout": "Оформлення",
+    "cart": "Кошик",
+    "searchPlaceholder": "Я шукаю...",
+    "allCategories": "Всі категорії",
+    "favorites": "Обране",
+    "account": "Кабінет",
+    "location": "Місто",
+    "locationSearch": "Почніть вводити",
+    "currentLocation": "Поточне місцезнаходження",
+    "popularCities": "Популярні міста",
+    "noCities": "Нічого не знайдено"
+  },
+  "footer": {
+    "tagline": "Торба — маркетплейс, що об'єднує покупців і продавців для зручних щоденних покупок.",
+    "rights": "Всі права захищені.",
+    "forYou": "Відкрий для себе",
+    "useful": "Корисна інформація",
+    "help": "Допомога потрібна?",
+    "categories": "Категорії",
+    "new": "Новинки",
+    "trends": "Тренди",
+    "recommended": "Торба рекомендує",
+    "about": "Про компанію",
+    "payments": "Способи оплати",
+    "warranty": "Гарантії",
+    "faq": "Поширені запитання",
+    "delivery": "Доставка та повернення",
+    "contacts": "Контактна інформація",
+    "privacy": "Політика конфіденційності",
+    "terms": "Умови використання",
+    "region": "Україна · UAH",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "email": "Пошта"
+  },
+  "pages": {
+    "home": {
+      "title": "Головна",
+      "description": "Контент з’явиться після макетів Ready for Dev.",
+      "banners": "Банери",
+      "bannerPrev": "Попередній банер",
+      "bannerNext": "Наступний банер",
+      "popularCategories": "Популярні категорії",
+      "catalogLink": "Каталог",
+      "trending": "Зараз у тренді",
+      "trendingLink": "Трендові товари",
+      "badgeNew": "Новинка",
+      "showMore": "Показати ще",
+      "sellerInviteTitle": "Відкрий нові можливості для свого бізнесу",
+      "sellerInviteSubtitle": "Тисячі товарів на <brand>torbi</brand> чекають на тебе",
+      "campaignCta": "Перейти",
+      "sellerInviteCta": "Перейти в каталог"
+    },
+
+    "catalog": {
+      "title": "Каталог",
+      "description": "Знайдіть потрібні товари та перегляньте пропозиції продавців.",
+      "allCategories": "Усі товари",
+      "categoriesLabel": "Фільтр за категоріями",
+      "noProducts": "У цій категорії поки немає товарів."
+    },
+    "product": {
+      "title": "Товар",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "checkout": {
+      "title": "Оформлення",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "new": {
+      "title": "Новинки",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "trends": {
+      "title": "Тренди",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "recommended": {
+      "title": "Торба рекомендує",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "about": {
+      "title": "Про компанію",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "payments": {
+      "title": "Способи оплати",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "warranty": {
+      "title": "Гарантії",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "faq": {
+      "title": "Поширені запитання",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "delivery": {
+      "title": "Доставка та повернення",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "contacts": {
+      "title": "Контактна інформація",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "privacy": {
+      "title": "Політика конфіденційності",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    },
+    "terms": {
+      "title": "Умови використання",
+      "description": "Контент з’явиться після макетів Ready for Dev."
+    }
+  }
+}
