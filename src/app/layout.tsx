@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Bruno_Ace, Inter } from 'next/font/google';
+import { Bruno_Ace, Inter, Roboto } from 'next/font/google';
 
 import { Providers } from '@/app/providers';
 import { siteConfig } from '@/config/site';
@@ -17,6 +17,12 @@ const brandFont = Bruno_Ace({
   subsets: ['latin'],
 });
 
+const secondFont = Roboto({
+  variable: '--font-roboto',
+  weight: '400',
+  subsets: ['latin', 'cyrillic'],
+});
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -32,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang={siteConfig.defaultLocale}
-      className={`${bodyFont.variable} ${brandFont.variable} h-full`}
+      className={`${bodyFont.variable} ${brandFont.variable} ${secondFont.variable} h-full`}
     >
       <body className="min-h-full antialiased">
         <Providers>{children}</Providers>
