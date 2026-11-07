@@ -12,9 +12,10 @@ import { localized } from '@/lib/localized';
 
 type ProductCardProps = {
   product: HomeProduct;
+  titleVariant?: 'default' | 'catalog';
 };
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, titleVariant = 'default' }: ProductCardProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'en' ? 'en-US' : 'uk-UA';
   const inStock = product.availability.uk === 'В наявності';
@@ -32,9 +33,23 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         ) : null}
 
-        <span className="absolute top-2 left-2 z-10 rounded-md bg-white px-2 py-0.5 text-xs font-medium text-(--color-ink)">
-          {t('pages.home.badgeNew')}
-        </span>
+        {product.badge ? (
+          <span
+            className={
+              product.badge === 'trend'
+                ? 'absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-red-500) px-2 py-0.5 text-[11px] leading-4 font-medium text-white'
+                : product.badge === 'recommended'
+                  ? 'absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-accent-green) px-2 py-0.5 text-[11px] leading-4 font-medium text-white'
+                  : 'absolute top-2 left-2 z-10 rounded-md bg-white px-2 py-0.5 text-xs font-medium text-(--color-ink)'
+            }
+          >
+            {product.badge === 'trend'
+              ? t('pages.catalog.badgeTrend')
+              : product.badge === 'recommended'
+                ? t('pages.catalog.badgeRecommended')
+                : t('pages.home.badgeNew')}
+          </span>
+        ) : null}
 
         <button
           type="button"
@@ -63,18 +78,28 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <Link
           href={`/product/${product.id}`}
-          className="block min-w-0 truncate text-sm font-semibold text-(--color-ink) hover:text-(--color-brand)"
+          className={
+            titleVariant === 'catalog'
+              ? 'block min-w-0 truncate font-[family-name:var(--font-family)] text-[16px] leading-[1.5] font-normal text-(--color-dark-900)'
+              : 'block min-w-0 truncate text-sm font-semibold text-(--color-ink) hover:text-(--color-brand)'
+          }
         >
           {product.title}
         </Link>
 
         <div className="mt-auto grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 gap-y-0.5">
           <div className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-1.5">
-            <span className="shrink-0 text-sm font-semibold text-(--color-ink) sm:text-md">
+            <span
+              className={
+                titleVariant === 'catalog'
+                  ? 'shrink-0 font-[family-name:var(--font-family)] text-[16px] leading-[1.5] font-medium text-(--color-dark-900)'
+                  : 'shrink-0 text-sm font-semibold text-(--color-ink) sm:text-md'
+              }
+            >
               {formatMoney(product.price, locale)}
             </span>
             {product.oldPrice ? (
-              <span className="min-w-0 truncate text-xs text-(--color-muted) line-through sm:text-sm">
+              <span className="min-w-0 truncate font-[family-name:var(--font-family)] text-[12px] leading-[1.5] font-normal text-(--color-dark-400) line-through">
                 {formatMoney(product.oldPrice, locale)}
               </span>
             ) : (
@@ -92,7 +117,7 @@ export function ProductCard({ product }: ProductCardProps) {
           >
             <ShoppingCart01 aria-hidden />
           </Button>
-          <p className="inline-flex min-w-0 items-center gap-1 text-xs font-medium text-(--color-muted)">
+          <p className="inline-flex min-w-0 items-center gap-1 font-[family-name:var(--font-family)] text-[12px] leading-[1.5] font-normal text-(--color-dark-600)">
             <ShieldTick className="size-4 shrink-0" aria-hidden />
             <span className="truncate">{product.sellerName}</span>
           </p>

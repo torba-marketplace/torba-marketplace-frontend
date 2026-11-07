@@ -33,8 +33,10 @@ export type HomeCategory = {
   imageUrl: string;
 };
 
+export type ProductBadge = 'new' | 'trend' | 'recommended';
+
 export type HomeProduct = ProductSummary & {
-  badge?: 'new';
+  badge?: ProductBadge;
   categoryName: LocalizedText;
   oldPrice?: Money;
   availability: LocalizedText;

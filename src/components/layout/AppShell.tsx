@@ -11,9 +11,9 @@ export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex min-h-full flex-col overflow-x-clip bg-(--color-canvas)">
       <Header />
-      <Container as="main" className="flex flex-1 flex-col pb-20 md:pb-0">
-        {children}
-      </Container>
+      <main className="flex w-full flex-1 flex-col bg-white pb-20 md:pb-0">
+        <Container className="flex flex-1 flex-col">{children}</Container>
+      </main>
       <Footer />
       <MobileBottomNav />
     </div>

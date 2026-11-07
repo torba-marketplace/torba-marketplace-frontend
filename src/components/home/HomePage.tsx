@@ -63,7 +63,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className="flex flex-1 flex-col bg-primary-50 px-4 pt-8 pb-14 sm:px-6 lg:px-16">
+      <div className="flex flex-1 flex-col bg-white px-4 pt-8 pb-14 sm:px-6 lg:px-16">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
           <section className="flex flex-col gap-6">
             <div className="flex items-end justify-between gap-4">
