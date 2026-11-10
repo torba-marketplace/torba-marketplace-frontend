@@ -94,7 +94,34 @@
     },
     "product": {
       "title": "Product",
-      "description": "Content will appear after Ready for Dev designs."
+      "description": "Content will appear after Ready for Dev designs.",
+      "breadcrumbs": "Breadcrumb",
+      "buyNow": "Buy now",
+      "addToCart": "Add to cart",
+      "discount": "Save {{percent}}%",
+      "delivery": "Delivery",
+      "pickup": "Pickup",
+      "sellerItems": "View other items",
+      "descriptionTab": "Description",
+      "specsTab": "Specifications",
+      "readMore": "Read more",
+      "readLess": "Show less",
+      "protectionTitle": "Service guarantee",
+      "protectionBody": "Pay safely through Torba. If your order does not arrive or the item does not match the description, we will help resolve it.",
+      "protectionLink": "More about the guarantee →",
+      "similar": "You may also like",
+      "recent": "Recently viewed",
+      "moreProducts": "More products",
+      "galleryPrev": "Previous photo",
+      "galleryNext": "Next photo",
+      "galleryExpand": "Open photo",
+      "galleryClose": "Close photo",
+      "galleryThumb": "Photo {{index}}",
+      "badge": {
+        "new": "New",
+        "trend": "Trends",
+        "recommended": "Torba recommends"
+      }
     },
     "checkout": {
       "title": "Checkout",
