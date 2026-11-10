@@ -94,7 +94,34 @@
     },
     "product": {
       "title": "Товар",
-      "description": "Контент з’явиться після макетів Ready for Dev."
+      "description": "Контент з’явиться після макетів Ready for Dev.",
+      "breadcrumbs": "Навігаційний шлях",
+      "buyNow": "Купити зараз",
+      "addToCart": "Додати у кошик",
+      "discount": "Знижка {{percent}}%",
+      "delivery": "Доставка",
+      "pickup": "Самовивіз",
+      "sellerItems": "Переглянути інші товари",
+      "descriptionTab": "Опис",
+      "specsTab": "Характеристики",
+      "readMore": "Читати повністю",
+      "readLess": "Згорнути",
+      "protectionTitle": "Гарантія сервісу",
+      "protectionBody": "Сплачуйте безпечно через Торбі. Якщо ваше замовлення не надійде або товар не відповідатиме опису, ми допоможемо вирішити цю ситуацію.",
+      "protectionLink": "Більше про гарантію →",
+      "similar": "Вас може зацікавити",
+      "recent": "Нещодавно переглянуті",
+      "moreProducts": "Більше товарів",
+      "galleryPrev": "Попереднє фото",
+      "galleryNext": "Наступне фото",
+      "galleryExpand": "Відкрити фото",
+      "galleryClose": "Закрити фото",
+      "galleryThumb": "Фото {{index}}",
+      "badge": {
+        "new": "Новинка",
+        "trend": "Тренди",
+        "recommended": "Торба рекомендує"
+      }
     },
     "checkout": {
       "title": "Оформлення",
