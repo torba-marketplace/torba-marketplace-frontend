@@ -473,6 +473,50 @@ function detailFromListing(product: HomeProduct, peers: HomeProduct[]): ProductD
 
 const cardsById = new Map([...similar, ...recent].map((card) => [card.id, card]));
 
+export function relatedCardFor(id: string): RelatedCard | null {
+  if (id === featured.id) {
+    return {
+      id: featured.id,
+      title: featured.title.uk,
+      category: featured.category,
+      availability: featured.availability,
+      inStock: featured.inStock,
+      price: featured.price,
+      oldPrice: featured.oldPrice,
+      imageUrl: featured.images[0] ?? '',
+      badge: featured.badge,
+      sellerName: featured.seller.name,
+    };
+  }
+
+  const known = cardsById.get(id);
+
+  if (known) {
+    return known;
+  }
+
+  const catalog = catalogProducts.find((product) => product.id === id);
+
+  if (catalog) {
+    return {
+      id: catalog.id,
+      title: catalog.title,
+      category: catalog.categoryName,
+      availability: catalog.availability,
+      inStock: catalog.availability.uk === 'В наявності',
+      price: catalog.price,
+      oldPrice: catalog.oldPrice,
+      imageUrl: catalog.imageUrl ?? '/image/home/product-1.png',
+      badge: catalog.badge,
+      sellerName: catalog.sellerName,
+    };
+  }
+
+  const listing = homeMock.trending.find((product) => product.id === id);
+
+  return listing ? toRelated(listing) : null;
+}
+
 export function getProductDetail(id: string): ProductDetail | null {
   if (id === featured.id) {
     return featured;

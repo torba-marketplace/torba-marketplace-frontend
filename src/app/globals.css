@@ -135,3 +135,73 @@ body {
   border-radius: 999px;
   background: var(--color-white);
 }
+
+@keyframes gallery-in-next {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gallery-out-next {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes gallery-in-prev {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gallery-out-prev {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+.gallery-in-next,
+.gallery-out-next,
+.gallery-in-prev,
+.gallery-out-prev {
+  animation-duration: 460ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+.gallery-in-next {
+  animation-name: gallery-in-next;
+}
+
+.gallery-out-next {
+  animation-name: gallery-out-next;
+}
+
+.gallery-in-prev {
+  animation-name: gallery-in-prev;
+}
+
+.gallery-out-prev {
+  animation-name: gallery-out-prev;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-in-next,
+  .gallery-out-next,
+  .gallery-in-prev,
+  .gallery-out-prev {
+    animation: none;
+  }
+}

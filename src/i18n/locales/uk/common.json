@@ -101,6 +101,8 @@
       "discount": "Знижка {{percent}}%",
       "delivery": "Доставка",
       "pickup": "Самовивіз",
+      "deliveryTerms": "Детальні умови",
+      "addedToCart": "У кошику",
       "sellerItems": "Переглянути інші товари",
       "descriptionTab": "Опис",
       "specsTab": "Характеристики",

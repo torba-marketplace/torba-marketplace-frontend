@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ProductBreadcrumbs } from '@/components/product/ProductBreadcrumbs';
@@ -10,8 +10,9 @@ import { ProductRail } from '@/components/product/ProductRail';
 import { PurchasePanel } from '@/components/product/PurchasePanel';
 import { PagePlaceholder } from '@/components/ui/PagePlaceholder';
 import { catalogCategories } from '@/config/categories';
-import { getProductDetail } from '@/data/product-page';
+import { getProductDetail, relatedCardFor, type RelatedCard } from '@/data/product-page';
 import { catalogHref } from '@/lib/catalog-query';
+import { rememberProductView, useRecentProductIds } from '@/lib/shop-lists';
 
 type ProductPageContentProps = {
   params: Promise<{ id: string }>;
@@ -21,6 +22,25 @@ export function ProductPageContent({ params }: ProductPageContentProps) {
   const { id } = use(params);
   const { t } = useTranslation();
   const product = getProductDetail(id);
+  const recentIds = useRecentProductIds();
+  const seenCards = recentIds
+    .filter((itemId) => itemId !== id)
+    .map((itemId) => relatedCardFor(itemId))
+    .filter((card): card is RelatedCard => card !== null);
+  const recentProducts = product
+    ? [
+        ...seenCards,
+        ...product.recent.filter(
+          (card) => card.id !== id && !seenCards.some((item) => item.id === card.id),
+        ),
+      ].slice(0, 5)
+    : [];
+
+  useEffect(() => {
+    if (getProductDetail(id)) {
+      rememberProductView(id);
+    }
+  }, [id]);
 
   if (!product) {
     return (
@@ -52,7 +72,7 @@ export function ProductPageContent({ params }: ProductPageContentProps) {
       </section>
       <ProductDetails product={product} />
       <ProductRail title={t('pages.product.similar')} href={moreHref} products={product.similar} />
-      <ProductRail title={t('pages.product.recent')} href={moreHref} products={product.recent} />
+      <ProductRail title={t('pages.product.recent')} href={moreHref} products={recentProducts} />
     </div>
   );
 }

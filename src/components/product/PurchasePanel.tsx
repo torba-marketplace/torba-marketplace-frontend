@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ProductHeart } from '@/components/product/ProductHeart';
 import { ProductIcon } from '@/components/product/ProductIcon';
 import {
   discountPercent,
@@ -14,6 +14,7 @@ import {
 import { catalogCategories } from '@/config/categories';
 import { catalogHref } from '@/lib/catalog-query';
 import { localized } from '@/lib/localized';
+import { useShopFlag } from '@/lib/shop-lists';
 import { cn } from '@/lib/cn';
 
 type PurchasePanelProps = {
@@ -25,7 +26,8 @@ const focusClass =
 
 export function PurchasePanel({ product }: PurchasePanelProps) {
   const { t, i18n } = useTranslation();
-  const [saved, setSaved] = useState(false);
+  const [saved, toggleSaved] = useShopFlag('favorites', product.id);
+  const [inCart, toggleCart] = useShopFlag('cart', product.id);
   const locale = i18n.language;
   const knownCategory = catalogCategories.some((item) => item.slug === product.categorySlug);
   const sellerHref = catalogHref({
@@ -93,36 +95,39 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
       </div>
 
       <div className="flex items-start gap-3">
-        <button
-          type="button"
+        <Link
+          href={`/checkout?product=${product.id}`}
           className={cn(
             'inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-(--color-primary-700) bg-(--color-primary-700) px-[18px] text-md leading-6 font-semibold text-white hover:bg-(--color-primary-800)',
             focusClass,
           )}
         >
           {t('pages.product.buyNow')}
-        </button>
+        </Link>
         <button
           type="button"
+          aria-pressed={inCart}
+          onClick={toggleCart}
           className={cn(
             'inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-(--color-dark-300) bg-(--color-primary-100) px-[18px] text-md leading-6 font-semibold text-(--color-primary-700)',
             focusClass,
           )}
         >
           <ProductIcon src="/icons/Shopping_Bag_01.svg" width={20} height={20} />
-          {t('pages.product.addToCart')}
+          {inCart ? t('pages.product.addedToCart') : t('pages.product.addToCart')}
         </button>
         <button
           type="button"
           aria-pressed={saved}
           aria-label={t('nav.favorites')}
-          onClick={() => setSaved((value) => !value)}
+          onClick={toggleSaved}
           className={cn(
-            'inline-flex size-11 shrink-0 items-center justify-center rounded-lg bg-white',
+            'inline-flex size-11 shrink-0 items-center justify-center rounded-lg',
+            saved ? 'bg-(--color-primary-100)' : 'bg-white',
             focusClass,
           )}
         >
-          <ProductIcon src="/image/product/heart.svg" width={20} height={20} />
+          <ProductHeart saved={saved} color="#2459DF" />
         </button>
       </div>
 
@@ -139,6 +144,12 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
                   <span className="font-bold">{localized(product.delivery.free, locale)}</span>
                   {localized(product.delivery.details, locale)}
                 </p>
+                <Link
+                  href="/delivery"
+                  className="text-xs leading-normal font-semibold text-(--color-primary-700)"
+                >
+                  {t('pages.product.deliveryTerms')}
+                </Link>
               </div>
             </div>
           ) : null}
@@ -152,6 +163,12 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
                 <p className="text-xs text-(--color-dark-600)">
                   {localized(product.pickup, locale)}
                 </p>
+                <Link
+                  href="/delivery"
+                  className="text-xs leading-normal font-semibold text-(--color-primary-700)"
+                >
+                  {t('pages.product.deliveryTerms')}
+                </Link>
               </div>
             </div>
           ) : null}
