@@ -77,7 +77,14 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                         className="inline-flex items-center gap-2 text-sm leading-5 font-semibold text-(--color-primary-700)"
                       >
                         {expanded ? t('pages.product.readLess') : t('pages.product.readMore')}
-                        <ProductIcon src="/icons/Arrow_Down_SM.svg" width={20} height={20} />
+                        <span
+                          className={cn(
+                            'inline-flex transition-transform duration-200',
+                            expanded && 'rotate-180',
+                          )}
+                        >
+                          <ProductIcon src="/icons/Arrow_Down_SM.svg" width={20} height={20} />
+                        </span>
                       </button>
                     </>
                   ) : null}

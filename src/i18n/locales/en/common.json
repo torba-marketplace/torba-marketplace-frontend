@@ -101,6 +101,8 @@
       "discount": "Save {{percent}}%",
       "delivery": "Delivery",
       "pickup": "Pickup",
+      "deliveryTerms": "Delivery details",
+      "addedToCart": "In cart",
       "sellerItems": "View other items",
       "descriptionTab": "Description",
       "specsTab": "Specifications",

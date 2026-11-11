@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/Button';
+import { ProductHeart } from '@/components/product/ProductHeart';
 import { ProductIcon } from '@/components/product/ProductIcon';
 import { figmaMoney, type RelatedCard } from '@/data/product-page';
 import { localized } from '@/lib/localized';
+import { useShopFlag } from '@/lib/shop-lists';
 import { cn } from '@/lib/cn';
 
 type RelatedProductCardProps = {
@@ -23,7 +24,8 @@ const badgeClass = {
 
 export function RelatedProductCard({ product }: RelatedProductCardProps) {
   const { t, i18n } = useTranslation();
-  const [saved, setSaved] = useState(false);
+  const [saved, toggleSaved] = useShopFlag('favorites', product.id);
+  const [inCart, toggleCart] = useShopFlag('cart', product.id);
 
   return (
     <article className="flex h-full flex-col gap-[13px]">
@@ -32,6 +34,7 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
           src={product.imageUrl}
           alt={product.title}
           fill
+          loading="lazy"
           className="object-cover"
           sizes="(min-width: 1280px) 243px, 50vw"
         />
@@ -55,10 +58,10 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
           type="button"
           aria-pressed={saved}
           aria-label={t('nav.favorites')}
-          onClick={() => setSaved((value) => !value)}
+          onClick={toggleSaved}
           className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-full bg-white shadow-[0px_0px_5.8px_0px_rgba(0,0,0,0.06)]"
         >
-          <ProductIcon src="/image/product/heart-card.svg" width={18} height={18} />
+          <ProductHeart saved={saved} size={18} color="#1A1F1E" />
         </button>
       </div>
 
@@ -103,8 +106,10 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
             hierarchy="primary"
             size="sm"
             iconOnly
-            aria-label={t('nav.cart')}
-            className="shrink-0"
+            aria-label={inCart ? t('pages.product.addedToCart') : t('nav.cart')}
+            aria-pressed={inCart}
+            onClick={toggleCart}
+            className={cn('shrink-0', inCart && 'ring-2 ring-(--color-dark-900) ring-offset-2')}
           >
             <ProductIcon src="/image/product/cart.svg" width={20} height={20} />
           </Button>
