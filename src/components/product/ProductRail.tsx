@@ -21,20 +21,22 @@ export function ProductRail({ title, href, products }: ProductRailProps) {
   }
 
   return (
-    <section className="flex flex-col gap-[26px] pt-3.5">
+    <section className="flex min-w-0 flex-col gap-[26px] pt-3.5">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-[28px] leading-[34px] font-normal text-(--color-dark-800)">{title}</h2>
+        <h2 className="text-xl leading-[30px] font-normal text-(--color-dark-800) xl:text-[28px] xl:leading-[34px]">
+          {title}
+        </h2>
         <Link
           href={href}
-          className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-(--color-primary-700)"
+          className="hidden shrink-0 items-center gap-2 text-sm font-semibold text-(--color-primary-700) xl:inline-flex"
         >
           {t('pages.product.moreProducts')}
           <ProductIcon src="/icons/arrow-right.svg" width={17} height={17} />
         </Link>
       </div>
-      <ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-5">
+      <ul className="flex gap-6 overflow-x-auto xl:grid xl:grid-cols-5 xl:overflow-visible">
         {products.map((product) => (
-          <li key={product.id} className="min-w-0">
+          <li key={product.id} className="w-[170px] shrink-0 xl:w-auto xl:min-w-0">
             <RelatedProductCard product={product} />
           </li>
         ))}

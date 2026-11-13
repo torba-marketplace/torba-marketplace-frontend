@@ -64,9 +64,9 @@ export function ProductPageContent({ params }: ProductPageContentProps) {
   });
 
   return (
-    <div className="catalog-frame flex w-full flex-col gap-[30px] pt-7 pb-14">
+    <div className="catalog-frame flex w-full flex-col gap-4 py-6 xl:gap-[30px] xl:pt-7 xl:pb-14">
       <ProductBreadcrumbs product={product} />
-      <section className="flex flex-col gap-8 xl:flex-row xl:items-start xl:gap-12">
+      <section className="flex flex-col gap-4 xl:flex-row xl:items-start xl:gap-12">
         <ProductGallery product={product} />
         <PurchasePanel product={product} />
       </section>

@@ -108,12 +108,12 @@ export function CatalogPage() {
     <div className="catalog-frame flex w-full flex-1 flex-col pb-8">
       <nav
         aria-label={t('nav.home')}
-        className="mt-7 flex h-[15px] items-center gap-1.5 text-sm leading-[15px] text-(--color-dark-400)"
+        className="mt-7 flex h-[15px] items-center gap-2.5 text-[12px] leading-[15px] font-normal text-(--color-dark-600)"
       >
         <Link href="/" className="hover:text-(--color-dark-800)">
           {t('nav.home')}
         </Link>
-        <ChevronRight className="size-3.5" aria-hidden />
+        <ChevronRight className="size-3" aria-hidden />
         {subcategory ? (
           <Link href={categoryHref(category.slug)} className="hover:text-(--color-dark-800)">
             {categoryLabel}
@@ -123,7 +123,7 @@ export function CatalogPage() {
         )}
         {subcategory ? (
           <>
-            <ChevronRight className="size-3.5" aria-hidden />
+            <ChevronRight className="size-3" aria-hidden />
             <span className="text-(--color-dark-800)">
               {localized(subcategory.name, i18n.language)}
             </span>
@@ -143,13 +143,13 @@ export function CatalogPage() {
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="font-[family-name:var(--second-family)] text-[28px] leading-[1.29] font-normal text-(--color-dark-800)">
+            <h1 className="text-[24px] leading-8 font-medium text-(--color-dark-800) lg:font-[family-name:var(--second-family)] lg:text-[28px] lg:leading-9 lg:font-normal">
               {categoryLabel}
             </h1>
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="inline-flex h-10 items-center rounded-lg border border-(--color-dark-200) px-3 text-sm font-semibold text-(--color-dark-800) lg:hidden"
+                className="inline-flex h-10 items-center rounded-lg border border-(--color-dark-200) px-3 text-sm font-medium text-(--color-dark-900) lg:hidden"
                 onClick={() => setFiltersOpen(true)}
               >
                 {t('pages.catalog.filters')}
@@ -159,7 +159,7 @@ export function CatalogPage() {
               </label>
               <select
                 id="catalog-sort"
-                className="h-10 rounded-lg border border-(--color-dark-200) bg-white px-3 text-sm text-(--color-dark-800)"
+                className="h-10 rounded-lg border border-(--color-dark-200) bg-white px-3 text-sm font-medium text-(--color-dark-900)"
                 value={query.sort}
                 onChange={(event) =>
                   commit({ ...query, sort: event.target.value as CatalogSort, page: 1 })
@@ -385,10 +385,10 @@ function Pagination({
               type="button"
               aria-current={item === page ? 'page' : undefined}
               className={cn(
-                'inline-flex size-9 items-center justify-center rounded-lg text-sm',
+                'inline-flex size-9 items-center justify-center rounded-lg text-[13px] leading-normal',
                 item === page
                   ? 'bg-(--color-primary-700) font-semibold text-white'
-                  : 'text-(--color-dark-600)',
+                  : 'font-normal text-(--color-dark-800)',
               )}
               onClick={() => onPage(item)}
             >
@@ -405,7 +405,7 @@ function Pagination({
           </button>
         </div>
       ) : null}
-      <p className="text-sm text-(--color-dark-400)">{shownLabel}</p>
+      <p className="text-[12px] leading-[15px] text-(--color-dark-600)">{shownLabel}</p>
     </div>
   );
 }

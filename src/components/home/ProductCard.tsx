@@ -19,6 +19,7 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'en' ? 'en-US' : 'uk-UA';
   const inStock = product.availability.uk === 'В наявності';
+  const catalog = titleVariant === 'catalog';
 
   return (
     <article className="flex h-full w-full flex-col gap-[13px]">
@@ -37,10 +38,10 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
           <span
             className={
               product.badge === 'trend'
-                ? 'absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-red-500) px-2 py-0.5 text-[11px] leading-4 font-medium text-white'
+                ? `absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-red-500) px-2 py-0.5 text-white ${catalog ? 'text-xs font-semibold' : 'text-[11px] leading-4 font-medium'}`
                 : product.badge === 'recommended'
-                  ? 'absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-accent-green) px-2 py-0.5 text-[11px] leading-4 font-medium text-white'
-                  : 'absolute top-2 left-2 z-10 rounded-md bg-white px-2 py-0.5 text-xs font-medium text-(--color-ink)'
+                  ? `absolute top-2 left-2 z-10 max-w-[75%] rounded-md bg-(--color-accent-green) px-2 py-0.5 text-white ${catalog ? 'text-xs font-semibold' : 'text-[11px] leading-4 font-medium'}`
+                  : `absolute top-2 left-2 z-10 rounded-md bg-white px-2 py-0.5 text-(--color-ink) ${catalog ? 'text-xs font-semibold' : 'text-xs font-medium'}`
             }
           >
             {product.badge === 'trend'
@@ -62,7 +63,13 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
 
       <div className="flex flex-1 flex-col gap-1.5">
         <div className="flex items-center justify-between gap-2">
-          <p className="min-w-0 truncate text-xs text-(--color-muted)">
+          <p
+            className={
+              catalog
+                ? 'min-w-0 max-w-[100px] truncate text-xs font-semibold text-(--color-dark-600)'
+                : 'min-w-0 truncate text-xs text-(--color-muted)'
+            }
+          >
             {localized(product.categoryName, i18n.language)}
           </p>
           <p
@@ -79,8 +86,8 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
         <Link
           href={`/product/${product.id}`}
           className={
-            titleVariant === 'catalog'
-              ? 'block min-w-0 truncate font-[family-name:var(--font-family)] text-[16px] leading-[1.5] font-normal text-(--color-dark-900)'
+            catalog
+              ? 'block min-w-0 truncate font-[family-name:var(--font-family)] text-sm font-normal text-(--color-dark-900) lg:text-md'
               : 'block min-w-0 truncate text-sm font-semibold text-(--color-ink) hover:text-(--color-brand)'
           }
         >
@@ -91,8 +98,8 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
           <div className="flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-1.5">
             <span
               className={
-                titleVariant === 'catalog'
-                  ? 'shrink-0 font-[family-name:var(--font-family)] text-[16px] leading-[1.5] font-medium text-(--color-dark-900)'
+                catalog
+                  ? 'shrink-0 font-[family-name:var(--font-family)] text-sm font-medium text-(--color-dark-900) lg:text-md'
                   : 'shrink-0 text-sm font-semibold text-(--color-ink) sm:text-md'
               }
             >
