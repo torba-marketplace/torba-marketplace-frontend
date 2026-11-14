@@ -27,6 +27,8 @@ import { Input } from '@/components/ui/Input';
 import { Logo } from '@/components/ui/Logo';
 import { featuredCategories } from '@/config/categories';
 import { defaultLocationId, findLocation } from '@/config/locations';
+import { useCart } from '@/lib/cart-store';
+import { countForm } from '@/lib/cart-summary';
 import { cn } from '@/lib/cn';
 import { localized } from '@/lib/localized';
 
@@ -75,6 +77,12 @@ function focusVisibleSearch(
 
 export function Header() {
   const { t, i18n } = useTranslation();
+  const { isOpen: cartOpen, items, openCart } = useCart();
+  const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const cartAriaLabel =
+    cartCount > 0
+      ? `${t('nav.cart')}, ${t(`cart.count.${countForm(cartCount)}`, { count: cartCount })}`
+      : t('nav.cart');
   const rootRef = useRef<HTMLElement>(null);
   const desktopSearchRef = useRef<HTMLInputElement>(null);
   const mobileSearchRef = useRef<HTMLInputElement>(null);
@@ -191,9 +199,12 @@ export function Header() {
           <button
             type="button"
             className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-(--color-border) text-(--color-ink)"
-            aria-label={t('nav.cart')}
+            aria-label={cartAriaLabel}
+            aria-expanded={cartOpen}
+            aria-controls="cart-sidebar"
+            onClick={openCart}
           >
-            <ShoppingCart01 className="size-5" aria-hidden />
+            <CartGlyph count={cartCount} />
           </button>
           {showMobileLocationMenu ? (
             <LocationMenu
@@ -227,8 +238,11 @@ export function Header() {
             label={t('nav.favorites')}
           />
           <HeaderAction
-            icon={<ShoppingCart01 className="size-5" aria-hidden />}
+            icon={<CartGlyph count={cartCount} />}
             label={t('nav.cart')}
+            ariaLabel={cartAriaLabel}
+            expanded={cartOpen}
+            onClick={openCart}
           />
           <HeaderAction icon={<User01 className="size-5" aria-hidden />} label={t('nav.account')} />
         </div>
@@ -326,11 +340,45 @@ function SearchShortcut({ isApple }: { isApple: boolean }) {
   );
 }
 
-function HeaderAction({ icon, label }: { icon: ReactNode; label: string }) {
+function CartGlyph({ count }: { count: number }) {
+  const label = count > 99 ? '99+' : String(count);
+
+  return (
+    <span className="relative inline-flex">
+      <ShoppingCart01 className="size-5" aria-hidden />
+      {count > 0 ? (
+        <span
+          aria-hidden
+          className="absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--color-brand) px-1 text-[10px] leading-none font-semibold text-white ring-2 ring-(--color-surface)"
+        >
+          {label}
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+function HeaderAction({
+  icon,
+  label,
+  ariaLabel,
+  onClick,
+  expanded,
+}: {
+  icon: ReactNode;
+  label: string;
+  ariaLabel?: string;
+  onClick?: () => void;
+  expanded?: boolean;
+}) {
   return (
     <button
       type="button"
       className="inline-flex w-14 flex-col items-center gap-1 text-(--color-ink)"
+      aria-label={ariaLabel}
+      aria-expanded={expanded}
+      aria-controls={onClick ? 'cart-sidebar' : undefined}
+      onClick={onClick}
     >
       {icon}
       <span className="text-xs font-medium">{label}</span>

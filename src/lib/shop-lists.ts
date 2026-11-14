@@ -33,6 +33,10 @@ function writeIds(key: string, ids: string[]) {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
+export function replaceShopIds(flag: ShopFlag, ids: string[]) {
+  writeIds(flagKey[flag], ids);
+}
+
 export function useShopFlag(flag: ShopFlag, id: string) {
   const key = flagKey[flag];
   const [enabled, setEnabled] = useState(false);

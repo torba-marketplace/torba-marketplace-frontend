@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 
 import type { HomeProduct } from '@/types/home';
 import { Button } from '@/components/ui/Button';
+import { draftFromHome } from '@/lib/cart-draft';
+import { useCart } from '@/lib/cart-store';
 import { formatMoney } from '@/lib/format-money';
 import { localized } from '@/lib/localized';
 
@@ -17,6 +19,8 @@ type ProductCardProps = {
 
 export function ProductCard({ product, titleVariant = 'default' }: ProductCardProps) {
   const { t, i18n } = useTranslation();
+  const { addToCart, contains } = useCart();
+  const inCart = contains(product.id);
   const locale = i18n.language === 'en' ? 'en-US' : 'uk-UA';
   const inStock = product.availability.uk === 'В наявності';
   const catalog = titleVariant === 'catalog';
@@ -119,7 +123,9 @@ export function ProductCard({ product, titleVariant = 'default' }: ProductCardPr
             hierarchy="primary"
             size="sm"
             iconOnly
-            aria-label={t('nav.cart')}
+            aria-label={inCart ? t('pages.product.addedToCart') : t('nav.cart')}
+            aria-pressed={inCart}
+            onClick={() => addToCart(draftFromHome(product))}
             className="col-start-2 row-span-2 row-start-1 size-8 shrink-0 rounded-lg sm:size-9"
           >
             <ShoppingCart01 aria-hidden />

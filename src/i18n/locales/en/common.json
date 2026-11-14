@@ -17,6 +17,48 @@
     "popularCities": "Popular cities",
     "noCities": "No cities found"
   },
+  "cart": {
+    "title": "Cart",
+    "close": "Close cart",
+    "count": {
+      "one": "{{count}} item",
+      "few": "{{count}} items",
+      "many": "{{count}} items"
+    },
+    "soldBy": "Seller: {{seller}}",
+    "sellerItems": "Items from {{seller}}",
+    "remove": "Remove {{name}}",
+    "select": "Select {{name}}",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "outOfStock": "Out of stock",
+    "excluded": "Not included in the total",
+    "unavailableTitle": {
+      "one": "One item is no longer available",
+      "few": "{{count}} items are no longer available",
+      "many": "{{count}} items are no longer available"
+    },
+    "unavailableBody": {
+      "one": "It is not included in the total. You can still order the rest.",
+      "few": "They are not included in the total. You can still order the rest.",
+      "many": "They are not included in the total. You can still order the rest."
+    },
+    "subtotal": "Price before discount ({{items}})",
+    "discount": "Discount",
+    "delivery": "Nova Poshta delivery",
+    "free": "Free",
+    "total": "Amount due",
+    "checkout": "Checkout",
+    "continue": "Continue shopping",
+    "deliveryNote": "You will choose the delivery method and date at checkout",
+    "emptyTitle": "Your cart is still empty",
+    "emptyLead": "Find something special for yourself.",
+    "emptyHint": "Add products and they will show up here.",
+    "toCatalog": "Go to catalog",
+    "emptyFooter": "Good finds start on Torba",
+    "loading": "Loading your cart…",
+    "loadingNote": "Checking prices and availability"
+  },
   "footer": {
     "tagline": "Torba is a marketplace that brings buyers and sellers together for easy everyday shopping.",
     "rights": "All rights reserved.",

@@ -14,6 +14,8 @@ import {
 import { catalogCategories } from '@/config/categories';
 import { catalogHref } from '@/lib/catalog-query';
 import { localized } from '@/lib/localized';
+import { draftFromDetail } from '@/lib/cart-draft';
+import { useCart } from '@/lib/cart-store';
 import { useShopFlag } from '@/lib/shop-lists';
 import { cn } from '@/lib/cn';
 
@@ -27,7 +29,8 @@ const focusClass =
 export function PurchasePanel({ product }: PurchasePanelProps) {
   const { t, i18n } = useTranslation();
   const [saved, toggleSaved] = useShopFlag('favorites', product.id);
-  const [inCart, toggleCart] = useShopFlag('cart', product.id);
+  const { addToCart, contains } = useCart();
+  const inCart = contains(product.id);
   const locale = i18n.language;
   const knownCategory = catalogCategories.some((item) => item.slug === product.categorySlug);
   const sellerHref = catalogHref({
@@ -107,7 +110,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
         <button
           type="button"
           aria-pressed={inCart}
-          onClick={toggleCart}
+          onClick={() => addToCart(draftFromDetail(product))}
           className={cn(
             'inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-(--color-dark-300) bg-(--color-primary-100) px-[18px] text-md leading-6 font-semibold text-(--color-primary-700) xl:flex-1',
             focusClass,
