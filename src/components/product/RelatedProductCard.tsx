@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { ProductHeart } from '@/components/product/ProductHeart';
 import { ProductIcon } from '@/components/product/ProductIcon';
 import { figmaMoney, type RelatedCard } from '@/data/product-page';
+import { draftFromRelated } from '@/lib/cart-draft';
+import { useCart } from '@/lib/cart-store';
 import { localized } from '@/lib/localized';
 import { useShopFlag } from '@/lib/shop-lists';
 import { cn } from '@/lib/cn';
@@ -25,7 +27,8 @@ const badgeClass = {
 export function RelatedProductCard({ product }: RelatedProductCardProps) {
   const { t, i18n } = useTranslation();
   const [saved, toggleSaved] = useShopFlag('favorites', product.id);
-  const [inCart, toggleCart] = useShopFlag('cart', product.id);
+  const { addToCart, contains } = useCart();
+  const inCart = contains(product.id);
 
   return (
     <article className="flex h-full flex-col gap-[13px]">
@@ -108,7 +111,7 @@ export function RelatedProductCard({ product }: RelatedProductCardProps) {
             iconOnly
             aria-label={inCart ? t('pages.product.addedToCart') : t('nav.cart')}
             aria-pressed={inCart}
-            onClick={toggleCart}
+            onClick={() => addToCart(draftFromRelated(product))}
             className={cn('shrink-0', inCart && 'ring-2 ring-(--color-dark-900) ring-offset-2')}
           >
             <ProductIcon src="/image/product/cart.svg" width={20} height={20} />

@@ -4,12 +4,15 @@ import { describe, expect, it } from 'vitest';
 
 import { Header } from '@/components/layout/Header';
 import { I18nProvider } from '@/i18n/I18nProvider';
+import { CartProvider } from '@/lib/cart-store';
 
 function renderHeader() {
   return render(
     <I18nProvider>
-      <Header />
-      <button type="button">Outside</button>
+      <CartProvider>
+        <Header />
+        <button type="button">Outside</button>
+      </CartProvider>
     </I18nProvider>,
   );
 }
@@ -91,6 +94,18 @@ describe('Header', () => {
     await user.type(citySearch, 'zzzzz');
 
     expect(within(menu!).getByText(/нічого не знайдено/i)).toBeVisible();
+  });
+
+  it('shows how many items are in the cart next to the cart icon', async () => {
+    localStorage.removeItem('torba-cart-items');
+    renderHeader();
+
+    const carts = await screen.findAllByRole('button', { name: /кошик, 2 товари/i });
+
+    expect(carts).toHaveLength(2);
+    for (const cart of carts) {
+      expect(within(cart).getByText('2')).toBeVisible();
+    }
   });
 
   it('focuses search with Control+K', async () => {

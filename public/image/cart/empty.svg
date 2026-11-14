@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="200" height="164" viewBox="0 0 200 164" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Empty cart illustration">
+<circle id="Illustration background" cx="100" cy="82" r="74" fill="#EEF3FF"/>
+<g id="Shopping bag">
+<path id="Vector" d="M90 68.6667C90 74.1895 94.4772 78.6667 100 78.6667C105.523 78.6667 110 74.1895 110 68.6667M70 98.0007V66.0006C70 62.267 70 60.3987 70.7266 58.9727C71.3658 57.7182 72.3849 56.6991 73.6393 56.06C75.0654 55.3333 76.9336 55.3333 80.6673 55.3333H119.334C123.068 55.3333 124.932 55.3333 126.358 56.06C127.612 56.6991 128.635 57.7182 129.274 58.9727C130 60.3973 130 62.2633 130 65.9897V98.0119C130 101.738 130 103.602 129.274 105.026C128.635 106.281 127.612 107.302 126.358 107.941C124.933 108.667 123.07 108.667 119.344 108.667H80.6564C76.93 108.667 75.064 108.667 73.6393 107.941C72.3849 107.302 71.3658 106.281 70.7266 105.026C70 103.6 70 101.734 70 98.0007Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="#2459DF"/>
+</g>
+<circle id="Decorative dot" cx="178" cy="44" r="4" fill="#D2DDF8"/>
+<circle id="Decorative dot_2" cx="22" cy="126" r="6" fill="#D2DDF8"/>
+<path id="Decorative accent" d="M26 34V42M26 42V50M26 42H18M26 42H34" stroke-width="2" stroke="#2459DF"/>
+</g>
+</svg>
