@@ -42,10 +42,10 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
   });
 
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-[22px]">
+    <div className="flex min-w-0 flex-1 flex-col gap-4 xl:gap-[22px]">
       <div className="flex flex-col gap-3">
         <p className="text-sm leading-5 text-(--color-dark-600)">{product.brand}</p>
-        <h1 className="text-[30px] leading-[38px] font-semibold text-(--color-dark-800)">
+        <h1 className="text-2xl leading-8 font-semibold text-(--color-dark-800) xl:text-[30px] xl:leading-[38px]">
           {localized(product.title, locale)}
         </h1>
         {product.variant ? (
@@ -76,13 +76,13 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <p className="text-[30px] leading-[38px] font-semibold text-(--color-dark-800)">
+      <div className="flex flex-col gap-2 xl:gap-3">
+        <p className="text-2xl leading-8 font-semibold text-(--color-dark-800) xl:text-[30px] xl:leading-[38px]">
           {figmaMoney(product.price.amount)}
         </p>
         {product.oldPrice ? (
           <div className="flex items-center gap-3">
-            <p className="text-[17px] leading-none text-(--color-dark-400) line-through">
+            <p className="text-md leading-6 text-(--color-dark-400) line-through xl:text-[17px] xl:leading-none">
               {figmaMoney(product.oldPrice.amount)}
             </p>
             <p className="text-[11px] leading-none text-(--color-accent-green)">
@@ -94,11 +94,11 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
         ) : null}
       </div>
 
-      <div className="flex items-start gap-3">
+      <div className="flex flex-col items-stretch gap-2 xl:flex-row xl:items-start xl:gap-3">
         <Link
           href={`/checkout?product=${product.id}`}
           className={cn(
-            'inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-(--color-primary-700) bg-(--color-primary-700) px-[18px] text-md leading-6 font-semibold text-white hover:bg-(--color-primary-800)',
+            'inline-flex h-11 w-full items-center justify-center rounded-lg border border-(--color-primary-700) bg-(--color-primary-700) px-[18px] text-md leading-6 font-semibold text-white hover:bg-(--color-primary-800) xl:flex-1',
             focusClass,
           )}
         >
@@ -109,7 +109,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
           aria-pressed={inCart}
           onClick={toggleCart}
           className={cn(
-            'inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-(--color-dark-300) bg-(--color-primary-100) px-[18px] text-md leading-6 font-semibold text-(--color-primary-700)',
+            'inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-(--color-dark-300) bg-(--color-primary-100) px-[18px] text-md leading-6 font-semibold text-(--color-primary-700) xl:flex-1',
             focusClass,
           )}
         >
@@ -122,7 +122,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
           aria-label={t('nav.favorites')}
           onClick={toggleSaved}
           className={cn(
-            'inline-flex size-11 shrink-0 items-center justify-center rounded-lg',
+            'hidden size-11 shrink-0 items-center justify-center rounded-lg xl:inline-flex',
             saved ? 'bg-(--color-primary-100)' : 'bg-white',
             focusClass,
           )}
@@ -146,7 +146,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
                 </p>
                 <Link
                   href="/delivery"
-                  className="text-xs leading-normal font-semibold text-(--color-primary-700)"
+                  className="hidden text-xs leading-normal font-semibold text-(--color-primary-700) xl:inline"
                 >
                   {t('pages.product.deliveryTerms')}
                 </Link>
@@ -165,7 +165,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
                 </p>
                 <Link
                   href="/delivery"
-                  className="text-xs leading-normal font-semibold text-(--color-primary-700)"
+                  className="hidden text-xs leading-normal font-semibold text-(--color-primary-700) xl:inline"
                 >
                   {t('pages.product.deliveryTerms')}
                 </Link>
@@ -175,7 +175,7 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
         </div>
       ) : null}
 
-      <div className="flex flex-col gap-4 rounded-xl border border-(--color-dark-150) p-[22px]">
+      <div className="flex flex-col gap-4 rounded-xl border border-(--color-dark-150) p-4 xl:p-[22px]">
         <div className="flex items-center gap-3">
           {product.seller.avatarUrl ? (
             <Image
@@ -183,13 +183,13 @@ export function PurchasePanel({ product }: PurchasePanelProps) {
               alt=""
               width={48}
               height={48}
-              className="size-12 rounded-full object-cover"
+              className="size-9 rounded-full object-cover xl:size-12"
             />
           ) : (
-            <span className="size-12 rounded-full bg-(--color-dark-100)" />
+            <span className="size-9 rounded-full bg-(--color-dark-100) xl:size-12" />
           )}
           <div className="flex min-w-0 flex-col gap-1.5">
-            <p className="flex items-center gap-1.5 text-md leading-6 text-(--color-dark-800)">
+            <p className="flex items-center gap-1.5 text-sm leading-5 text-(--color-dark-800) xl:text-md xl:leading-6">
               {product.seller.name}
               {product.seller.verified ? (
                 <ProductIcon src="/icons/badge-check.svg" width={16} height={16} />

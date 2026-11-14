@@ -21,7 +21,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const description = product.description;
 
   return (
-    <section className="flex flex-col gap-7">
+    <section className="flex flex-col gap-4 xl:gap-7">
       <div className="flex h-[49px] items-start gap-9 border-b border-(--color-dark-150)">
         <button
           type="button"
@@ -49,13 +49,13 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         </button>
       </div>
 
-      <div className="flex flex-col gap-16 xl:flex-row xl:items-start">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:gap-16">
         <div className="w-full xl:w-[752px] xl:shrink-0">
           {tab === 'description' ? (
-            <div className="flex flex-col gap-[18px]">
+            <div className="flex flex-col gap-4 xl:gap-[18px]">
               {description ? (
                 <>
-                  <h2 className="text-2xl leading-8 font-semibold text-(--color-dark-800)">
+                  <h2 className="text-xl leading-[30px] font-semibold text-(--color-dark-800) xl:text-2xl xl:leading-8">
                     {localized(description.title, locale)}
                   </h2>
                   <p className="text-sm leading-5 text-(--color-dark-600)">
@@ -96,7 +96,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               )}
             </div>
           ) : (
-            <dl className="grid grid-cols-2 gap-4 pt-1.5">
+            <dl className="grid grid-cols-1 gap-4 pt-1.5 xl:grid-cols-2">
               {product.specs.map((spec) => (
                 <div key={spec.label.uk} className="flex flex-col gap-[7px]">
                   <dt className="text-[11px] leading-normal text-(--color-dark-600)">
@@ -111,7 +111,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           )}
         </div>
 
-        <aside className="flex flex-1 flex-col gap-3.5 rounded-xl bg-(--color-dark-100) p-[26px]">
+        <aside className="flex flex-1 flex-col gap-3.5 rounded-xl bg-(--color-dark-100) px-[15px] py-[26px] xl:p-[26px]">
           <ProductIcon src="/image/product/shield.svg" width={29} height={29} />
           <h2 className="text-[18px] leading-normal font-semibold text-(--color-dark-800)">
             {t('pages.product.protectionTitle')}

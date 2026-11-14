@@ -5,8 +5,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
+import { ProductHeart } from '@/components/product/ProductHeart';
 import { ProductIcon } from '@/components/product/ProductIcon';
 import { localized } from '@/lib/localized';
+import { useShopFlag } from '@/lib/shop-lists';
 import { cn } from '@/lib/cn';
 import type { ProductDetail } from '@/data/product-page';
 
@@ -81,6 +83,7 @@ function GalleryStage({
 
 export function ProductGallery({ product }: ProductGalleryProps) {
   const { t, i18n } = useTranslation();
+  const [saved, toggleSaved] = useShopFlag('favorites', product.id);
   const [motion, setMotion] = useState<GalleryMotion>(idleMotion);
   const [expanded, setExpanded] = useState(false);
   const [galleryProductId, setGalleryProductId] = useState(product.id);
@@ -160,7 +163,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
 
   return (
     <div className="flex w-full flex-col gap-4 xl:w-[752px] xl:shrink-0">
-      <div className="relative aspect-[752/568] overflow-hidden rounded-2xl bg-(--color-dark-100) xl:h-[568px] xl:aspect-auto">
+      <div className="relative h-[300px] overflow-hidden rounded-2xl bg-(--color-dark-100) xl:h-[568px]">
         <GalleryStage
           images={product.images}
           motion={motion}
@@ -173,7 +176,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
         {product.badge ? (
           <span
             className={cn(
-              'absolute top-5 left-5 rounded-md px-2.5 py-1.5 text-xs leading-[18px] font-semibold shadow-[0px_0px_5.8px_0px_rgba(0,0,0,0.06)]',
+              'absolute top-5 left-2.5 rounded-md px-2.5 py-1.5 text-xs leading-[18px] font-semibold shadow-[0px_0px_5.8px_0px_rgba(0,0,0,0.06)] xl:left-5',
               badgeClass[product.badge],
             )}
           >
@@ -187,7 +190,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
               type="button"
               aria-label={t('pages.product.galleryPrev')}
               onClick={() => show(index - 1)}
-              className="absolute top-1/2 left-[18px] z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-lg bg-white"
+              className="absolute top-1/2 left-[18px] z-10 hidden size-10 -translate-y-1/2 items-center justify-center rounded-lg bg-white xl:flex"
             >
               <ProductIcon src="/image/product/chevron-left.svg" width={20} height={20} />
             </button>
@@ -195,21 +198,36 @@ export function ProductGallery({ product }: ProductGalleryProps) {
               type="button"
               aria-label={t('pages.product.galleryNext')}
               onClick={() => show(index + 1)}
-              className="absolute top-1/2 right-[18px] z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-lg bg-white"
+              className="absolute top-1/2 right-[18px] z-10 hidden size-10 -translate-y-1/2 items-center justify-center rounded-lg bg-white xl:flex"
             >
               <ProductIcon src="/image/product/chevron-right-lg.svg" width={20} height={20} />
             </button>
           </>
         ) : null}
 
-        <span className="absolute bottom-5 left-5 z-10 rounded-md bg-white px-[11px] py-1.5 text-[11px] leading-none text-(--color-dark-800)">
-          {index + 1} / {count}
-        </span>
         <button
           type="button"
           aria-label={t('pages.product.galleryExpand')}
           onClick={() => setExpanded(true)}
-          className="absolute right-5 bottom-5 z-10 flex size-8 items-center justify-center rounded-md bg-white"
+          className="absolute inset-0 z-[1] md:hidden"
+        />
+        <span className="absolute bottom-5 left-2.5 z-10 rounded-md bg-white px-[11px] py-1.5 text-[11px] leading-none text-(--color-dark-800) xl:left-5">
+          {index + 1} / {count}
+        </span>
+        <button
+          type="button"
+          aria-pressed={saved}
+          aria-label={t('nav.favorites')}
+          onClick={toggleSaved}
+          className="absolute top-[13px] right-2 z-10 flex size-11 items-center justify-center rounded-lg bg-white xl:hidden"
+        >
+          <ProductHeart saved={saved} color="#1A1F1E" />
+        </button>
+        <button
+          type="button"
+          aria-label={t('pages.product.galleryExpand')}
+          onClick={() => setExpanded(true)}
+          className="absolute right-5 bottom-5 z-10 hidden size-8 items-center justify-center rounded-md bg-white md:flex"
         >
           <ProductIcon src="/icons/expand.svg" width={16} height={16} />
         </button>
@@ -231,7 +249,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
                 aria-current={active ? 'true' : undefined}
                 onClick={() => show(imageIndex)}
                 className={cn(
-                  'relative h-[94px] w-[116px] shrink-0 overflow-hidden rounded-lg border-2 p-[3px] transition-colors duration-300',
+                  'relative h-[65px] w-20 shrink-0 overflow-hidden rounded-lg border-2 p-[3px] transition-colors duration-300 xl:h-[94px] xl:w-[116px]',
                   active ? 'border-(--color-primary-700)' : 'border-transparent',
                 )}
               >
@@ -247,7 +265,7 @@ export function ProductGallery({ product }: ProductGalleryProps) {
       {expanded
         ? createPortal(
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(16,23,21,0.45)] p-2.5"
+              className="fixed inset-0 z-50 max-md:top-14 max-md:bg-white md:flex md:items-center md:justify-center md:bg-[rgba(16,23,21,0.45)] md:p-2.5"
               onClick={() => setExpanded(false)}
             >
               <div
@@ -255,7 +273,69 @@ export function ProductGallery({ product }: ProductGalleryProps) {
                 aria-modal="true"
                 aria-label={title}
                 onClick={(event) => event.stopPropagation()}
-                className="relative flex w-full max-w-[1312px] flex-col items-center gap-4 rounded-3xl bg-white px-6 py-6 sm:px-10"
+                className="flex h-full flex-col gap-4 bg-white px-4 py-6 md:hidden"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="min-w-0 truncate text-2xl leading-8 font-semibold text-(--color-dark-800)">
+                    {title}
+                  </h2>
+                  <button
+                    type="button"
+                    aria-label={t('pages.product.galleryClose')}
+                    onClick={() => setExpanded(false)}
+                    className="flex size-8 shrink-0 items-center justify-center rounded-md"
+                  >
+                    <ProductIcon src="/image/product/lightbox-close.svg" width={20} height={20} />
+                  </button>
+                </div>
+                <div className="relative min-h-0 flex-1 overflow-hidden border border-(--color-dark-100)">
+                  <GalleryStage
+                    images={product.images}
+                    motion={motion}
+                    alt={title}
+                    fit="object-contain"
+                    sizes="100vw"
+                  />
+                </div>
+                {count > 1 ? (
+                  <div className="flex gap-3 overflow-x-auto">
+                    {product.images.map((src, imageIndex) => {
+                      const active = imageIndex === index;
+
+                      return (
+                        <button
+                          key={src}
+                          type="button"
+                          aria-label={t('pages.product.galleryThumb', { index: imageIndex + 1 })}
+                          aria-current={active ? 'true' : undefined}
+                          onClick={() => show(imageIndex)}
+                          className={cn(
+                            'relative h-[65px] w-20 shrink-0 overflow-hidden rounded-lg border-2 p-[3px] transition-colors duration-300',
+                            active ? 'border-(--color-primary-700)' : 'border-transparent',
+                          )}
+                        >
+                          <span className="relative block h-full overflow-hidden rounded-md">
+                            <Image
+                              src={src}
+                              alt=""
+                              fill
+                              loading="lazy"
+                              className="object-cover"
+                              sizes="80px"
+                            />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </div>
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-label={title}
+                onClick={(event) => event.stopPropagation()}
+                className="relative hidden w-full max-w-[1312px] flex-col items-center gap-4 rounded-3xl bg-white px-6 py-6 sm:px-10 md:flex"
               >
                 <h2 className="max-w-full truncate px-8 text-2xl leading-8 font-semibold text-(--color-dark-800)">
                   {title}
