@@ -110,7 +110,9 @@ export function Header() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key.toLowerCase() !== 'k' || event.altKey || !(event.metaKey || event.ctrlKey)) {
+      const key = typeof event.key === 'string' ? event.key.toLowerCase() : '';
+
+      if (key !== 'k' || event.altKey || !(event.metaKey || event.ctrlKey)) {
         return;
       }
 
