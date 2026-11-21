@@ -9,8 +9,9 @@ import { cartMoney, countForm, summarizeCart } from '@/lib/cart-summary';
 import { useCart } from '@/lib/cart-store';
 import { cn } from '@/lib/cn';
 
-import { CheckoutDelivery } from './CheckoutDelivery';
-import { isOrderPhone } from './phone';
+import { CheckoutDelivery, type DeliveryDraft } from './CheckoutDelivery';
+import { CheckoutPayment } from './CheckoutPayment';
+import { formatUaPhone, isOrderPhone } from './phone';
 
 const steps = ['contact', 'delivery', 'payment', 'confirmation'] as const;
 
@@ -24,6 +25,7 @@ export function CheckoutPage() {
   const [step, setStep] = useState<CheckoutStep>('contact');
   const [phone, setPhone] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [delivery, setDelivery] = useState<DeliveryDraft | null>(null);
   const itemsKey = countForm(summary.payableQuantity);
   const deliveryLabel = summary.delivery === 0 ? t('checkout.free') : cartMoney(summary.delivery);
 
@@ -36,18 +38,24 @@ export function CheckoutPage() {
     }
 
     setPhoneError('');
+    setDelivery((current) => (current ? { ...current, phone: formatUaPhone(phone) } : current));
     setStep('delivery');
     window.scrollTo({ top: 0 });
   }
 
-  function showContact() {
-    setStep('contact');
+  function showStep(next: CheckoutStep) {
+    setStep(next);
     window.scrollTo({ top: 0 });
+  }
+
+  function onPay(draft: DeliveryDraft) {
+    setDelivery(draft);
+    setStep('payment');
   }
 
   return (
     <div className="relative left-1/2 -mb-20 flex w-screen min-h-full flex-1 -translate-x-1/2 flex-col bg-(--color-primary-100) md:mb-0">
-      <div className="catalog-frame checkout-frame flex w-full flex-col gap-8 px-4 pt-8 pb-28 sm:px-6 md:pb-14">
+      <div className="catalog-frame checkout-frame flex w-full flex-col gap-8 px-4 pt-8 pb-28 sm:px-6 md:pb-14 min-[1320px]:px-0">
         <header className="flex flex-col gap-6">
           <h1 className="text-display-sm font-medium text-(--color-dark-800)">{t('checkout.title')}</h1>
           <ol aria-label={t('checkout.progress')} className="flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -62,7 +70,7 @@ export function CheckoutPage() {
                     <button
                       type="button"
                       className="flex items-center gap-2 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-(--color-brand)/40"
-                      onClick={showContact}
+                      onClick={() => showStep(item)}
                     >
                       <StepMarker done={done} current={current} index={index} />
                       <StepLabel done={done} current={current} label={t(`checkout.steps.${item}`)} />
@@ -79,8 +87,10 @@ export function CheckoutPage() {
           </ol>
         </header>
 
-        {step === 'delivery' ? (
-          <CheckoutDelivery key={phone} phone={phone} />
+        {step === 'payment' && delivery ? (
+          <CheckoutPayment draft={delivery} onEdit={() => showStep('delivery')} />
+        ) : step === 'delivery' ? (
+          <CheckoutDelivery phone={phone} initial={delivery} onPay={onPay} />
         ) : (
         <div className="flex w-full flex-col items-start gap-8 xl:flex-row xl:gap-12">
           <section className="flex w-full min-w-0 flex-1 flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6">
