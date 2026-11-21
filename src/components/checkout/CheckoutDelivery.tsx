@@ -12,8 +12,18 @@ import type { CartSeller } from '@/types/cart';
 
 import { formatUaPhone, isOrderPhone } from './phone';
 
+export type DeliveryMethodId = 'nova-poshta' | 'pickup';
+
+export type DeliveryDraft = {
+  phone: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  methods: Record<string, DeliveryMethodId>;
+};
+
 type DeliveryChoice = {
-  id: 'nova-poshta' | 'pickup';
+  id: DeliveryMethodId;
   icon: string;
   width: number;
   height: number;
@@ -72,24 +82,26 @@ const fieldClass =
 
 type CheckoutDeliveryProps = {
   phone: string;
+  initial?: DeliveryDraft | null;
+  onPay: (draft: DeliveryDraft) => void;
 };
 
-export function CheckoutDelivery({ phone }: CheckoutDeliveryProps) {
+export function CheckoutDelivery({ phone, initial, onPay }: CheckoutDeliveryProps) {
   const { t } = useTranslation();
   const { items, openCart } = useCart();
   const summary = summarizeCart(items);
   const orders = groupCartBySeller(items.filter((item) => item.available && item.selected));
   const formId = 'checkout-delivery';
-  const [recipientPhone, setRecipientPhone] = useState(() => formatUaPhone(phone));
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [methods, setMethods] = useState<Record<string, string>>({});
+  const [recipientPhone, setRecipientPhone] = useState(() => initial?.phone || formatUaPhone(phone));
+  const [email, setEmail] = useState(() => initial?.email ?? '');
+  const [firstName, setFirstName] = useState(() => initial?.firstName ?? '');
+  const [lastName, setLastName] = useState(() => initial?.lastName ?? '');
+  const [methods, setMethods] = useState<Record<string, DeliveryMethodId>>(() => initial?.methods ?? {});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const itemsKey = countForm(summary.payableQuantity);
   const deliveryLabel = summary.delivery === 0 ? t('checkout.free') : amountWithHryvnia(summary.delivery);
 
-  function onPay(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const next: Record<string, string> = {};
 
@@ -116,12 +128,25 @@ export function CheckoutDelivery({ phone }: CheckoutDeliveryProps) {
     }
 
     setErrors(next);
+
+    if (Object.keys(next).length > 0) {
+      return;
+    }
+
+    onPay({
+      phone: recipientPhone,
+      email: email.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      methods,
+    });
+    window.scrollTo({ top: 0 });
   }
 
   return (
     <div className="flex w-full flex-col items-start gap-8 xl:flex-row xl:gap-12">
       <div className="flex w-full min-w-0 flex-1 flex-col gap-6">
-        <form id={formId} className="flex flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6" onSubmit={onPay} noValidate>
+        <form id={formId} className="flex flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6" onSubmit={onSubmit} noValidate>
           <h2 className="text-xl leading-[30px] font-medium text-(--color-dark-800)">{t('checkout.recipient')}</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             <Field
