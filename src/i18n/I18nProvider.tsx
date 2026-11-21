@@ -28,7 +28,6 @@ export function I18nProvider({ children, locale = fallbackLng }: I18nProviderPro
         en: { [defaultNS]: en },
       },
       interpolation: { escapeValue: false },
-      initImmediate: false,
     });
 
     return instance;
