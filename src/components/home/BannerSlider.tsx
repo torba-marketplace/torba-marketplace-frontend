@@ -68,6 +68,7 @@ export function BannerSlider({ banners }: BannerSliderProps) {
           height={BANNER_HEIGHT}
           className="h-auto w-full object-cover"
           priority={index === 0}
+          loading="eager"
         />
       </Link>
 

@@ -292,28 +292,265 @@ const featured: ProductDetail = {
   recent,
 };
 
-function specsFromMock(
-  sellerName: string,
-  category: LocalizedText,
-  location?: string,
-): ProductSpec[] {
+function spec(
+  labelUk: string,
+  labelEn: string,
+  valueUk: string,
+  valueEn: string = valueUk,
+): ProductSpec {
+  return {
+    label: { uk: labelUk, en: labelEn },
+    value: { uk: valueUk, en: valueEn },
+  };
+}
+
+const specsById: Record<string, ProductSpec[]> = {
+  'divan-artemis': [
+    spec('Розміри', 'Dimensions', 'Ш 220 × Д 95 × В 85 см', 'W 220 × D 95 × H 85 cm'),
+    spec('Матеріали', 'Materials', 'Велюр, масив бука', 'Velvet, solid beech'),
+    spec('Колір', 'Color', 'Сірий', 'Grey'),
+    spec('Вага', 'Weight', '48 кг', '48 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Польща', 'Poland'),
+  ],
+  'krislo-viktoriia': [
+    spec('Розміри', 'Dimensions', 'Ш 68 × Д 70 × В 96 см', 'W 68 × D 70 × H 96 cm'),
+    spec('Матеріали', 'Materials', 'Штучна шкіра, метал', 'Faux leather, metal'),
+    spec('Колір', 'Color', 'Бежевий', 'Beige'),
+    spec('Вага', 'Weight', '18 кг', '18 kg'),
+    spec('Виробник', 'Manufacturer', 'Non DI'),
+    spec('Країна походження', 'Country of origin', 'Італія', 'Italy'),
+  ],
+  'divan-olimp': [
+    spec('Розміри', 'Dimensions', 'Ш 240 × Д 100 × В 82 см', 'W 240 × D 100 × H 82 cm'),
+    spec('Матеріали', 'Materials', 'Рогожка, фанера', 'Bouclé, plywood'),
+    spec('Колір', 'Color', 'Зелений', 'Green'),
+    spec('Вага', 'Weight', '62 кг', '62 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Україна', 'Ukraine'),
+  ],
+  'krislo-sirius': [
+    spec('Розміри', 'Dimensions', 'Ш 80 × Д 78 × В 90 см', 'W 80 × D 78 × H 90 cm'),
+    spec('Матеріали', 'Materials', 'Льон, масив дуба', 'Linen, solid oak'),
+    spec('Колір', 'Color', 'Синій', 'Blue'),
+    spec('Вага', 'Weight', '21 кг', '21 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  'divan-elehiia': [
+    spec('Розміри', 'Dimensions', 'Ш 210 × Д 92 × В 88 см', 'W 210 × D 92 × H 88 cm'),
+    spec('Матеріали', 'Materials', 'Бавовна, масив ясена', 'Cotton, solid ash'),
+    spec('Колір', 'Color', 'Пісочний', 'Sand'),
+    spec('Вага', 'Weight', '44 кг', '44 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+  ],
+  'krislo-rio': [
+    spec('Розміри', 'Dimensions', 'Ш 72 × Д 74 × В 84 см', 'W 72 × D 74 × H 84 cm'),
+    spec('Матеріали', 'Materials', 'Велюр, метал', 'Velvet, metal'),
+    spec('Колір', 'Color', 'Теракотовий', 'Terracotta'),
+    spec('Виробник', 'Manufacturer', 'Non DI'),
+    spec('Країна походження', 'Country of origin', 'Польща', 'Poland'),
+  ],
+  'divan-kaskad': [
+    spec('Розміри', 'Dimensions', 'Ш 260 × Д 105 × В 80 см', 'W 260 × D 105 × H 80 cm'),
+    spec('Матеріали', 'Materials', 'Шеніл, ДСП', 'Chenille, particle board'),
+    spec('Колір', 'Color', 'Графіт', 'Graphite'),
+    spec('Вага', 'Weight', '71 кг', '71 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  'krislo-mirazh': [
+    spec('Розміри', 'Dimensions', 'Ш 75 × Д 80 × В 102 см', 'W 75 × D 80 × H 102 cm'),
+    spec('Матеріали', 'Materials', 'Екошкіра, фанера', 'Eco-leather, plywood'),
+    spec('Колір', 'Color', 'Чорний', 'Black'),
+    spec('Вага', 'Weight', '19 кг', '19 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  'namet-3': [
+    spec('Розміри', 'Dimensions', '200 × 110 × 110 см', '200 × 110 × 110 cm'),
+    spec('Місткість', 'Capacity', '3 особи', '3 people'),
+    spec('Матеріали', 'Materials', 'Поліестер, фіберглас', 'Polyester, fiberglass'),
+    spec('Колір', 'Color', 'Зелений', 'Green'),
+    spec('Вага', 'Weight', '3,2 кг', '3.2 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+  ],
+  'krislo-bonro': [
+    spec('Розміри', 'Dimensions', 'Ш 68 × Д 70 × В 125 см', 'W 68 × D 70 × H 125 cm'),
+    spec('Матеріали', 'Materials', 'Екошкіра, метал', 'Eco-leather, metal'),
+    spec('Колір', 'Color', 'Чорно-червоний', 'Black and red'),
+    spec('Вага', 'Weight', '22 кг', '22 kg'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  p1: [
+    spec('Ємність', 'Capacity', '1024 Вт·год', '1024 Wh'),
+    spec('Потужність', 'Power', '1000 Вт', '1000 W'),
+    spec('Вага', 'Weight', '12,5 кг', '12.5 kg'),
+    spec('Колір', 'Color', 'Чорний', 'Black'),
+    spec('Виробник', 'Manufacturer', 'CHARGE34'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  p2: [
+    spec('Розміри', 'Dimensions', '800 × 600 × 400 мм', '800 × 600 × 400 mm'),
+    spec('Матеріали', 'Materials', 'Сталь, алюміній', 'Steel, aluminium'),
+    spec('Потужність', 'Power', '1500 Вт', '1500 W'),
+    spec('Вага', 'Weight', '85 кг', '85 kg'),
+    spec('Виробник', 'Manufacturer', 'ToolPro'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  p3: [
+    spec('Стандарт', 'Standard', 'Wi-Fi 5, AC1200'),
+    spec('Діапазони', 'Bands', '2,4 / 5 ГГц', '2.4 / 5 GHz'),
+    spec('Колір', 'Color', 'Чорний', 'Black'),
+    spec('Вага', 'Weight', '0,4 кг', '0.4 kg'),
+    spec('Виробник', 'Manufacturer', 'NetHub'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  p4: [
+    spec('Висота', 'Height', '28 см', '28 cm'),
+    spec('Матеріали', 'Materials', 'Кришталь, метал', 'Crystal, metal'),
+    spec('Колір', 'Color', 'Прозорий', 'Clear'),
+    spec('Живлення', 'Power', 'USB, 5 В', 'USB, 5 V'),
+    spec('Виробник', 'Manufacturer', 'LightBox'),
+  ],
+  p5: [
+    spec('Висота', 'Height', '35 см', '35 cm'),
+    spec('Матеріали', 'Materials', 'Плюш, холлофайбер', 'Plush, hollow fiber'),
+    spec('Колір', 'Color', 'Коричневий', 'Brown'),
+    spec('Виробник', 'Manufacturer', 'Kids&Co'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+  p6: [
+    spec('Розмір', 'Size', '200 × 220 см', '200 × 220 cm'),
+    spec('Матеріали', 'Materials', 'Бавовна сатин', 'Cotton sateen'),
+    spec('Колір', 'Color', 'Білий', 'White'),
+    spec('Щільність', 'Density', '120 г/м²', '120 g/m²'),
+    spec('Виробник', 'Manufacturer', 'HomeSoft'),
+    spec('Країна походження', 'Country of origin', 'Туреччина', 'Turkey'),
+  ],
+  p7: [
+    spec('Розміри', 'Dimensions', '240 × 210 × 130 см', '240 × 210 × 130 cm'),
+    spec('Місткість', 'Capacity', '4 особи', '4 people'),
+    spec('Матеріали', 'Materials', 'Поліестер 190T', 'Polyester 190T'),
+    spec('Колір', 'Color', 'Хакі', 'Khaki'),
+    spec('Вага', 'Weight', '4,8 кг', '4.8 kg'),
+    spec('Виробник', 'Manufacturer', 'CampUA'),
+    spec('Країна походження', 'Country of origin', 'Україна', 'Ukraine'),
+  ],
+  p8: [
+    spec('Розміри', 'Dimensions', 'Ш 67 × Д 68 × В 128 см', 'W 67 × D 68 × H 128 cm'),
+    spec('Матеріали', 'Materials', 'Екошкіра, нейлон', 'Eco-leather, nylon'),
+    spec('Колір', 'Color', 'Чорний', 'Black'),
+    spec('Вага', 'Weight', '20 кг', '20 kg'),
+    spec('Виробник', 'Manufacturer', 'GameSeat'),
+    spec('Країна походження', 'Country of origin', 'Китай', 'China'),
+  ],
+};
+
+const mockColors: LocalizedText[] = [
+  { uk: 'Чорний', en: 'Black' },
+  { uk: 'Білий', en: 'White' },
+  { uk: 'Сірий', en: 'Grey' },
+  { uk: 'Бежевий', en: 'Beige' },
+  { uk: 'Зелений', en: 'Green' },
+];
+
+const mockCountries: LocalizedText[] = [
+  { uk: 'Китай', en: 'China' },
+  { uk: 'Польща', en: 'Poland' },
+  { uk: 'Туреччина', en: 'Turkey' },
+  { uk: 'Україна', en: 'Ukraine' },
+];
+
+const clothingSizes = ['S', 'M', 'L', 'XL'] as const;
+
+function specSeed(id: string): number {
+  return [...id].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+}
+
+function specsForProduct(id: string, sellerName: string, categorySlug: string): ProductSpec[] {
+  const designed = specsById[id];
+
+  if (designed) {
+    return designed;
+  }
+
+  const seed = specSeed(id);
+  const color = mockColors[seed % mockColors.length];
+  const country = mockCountries[seed % mockCountries.length];
+  const manufacturer = spec('Виробник', 'Manufacturer', sellerName);
+  const origin = spec('Країна походження', 'Country of origin', country.uk, country.en);
+  const colorSpec = spec('Колір', 'Color', color.uk, color.en);
+
+  if (categorySlug === 'clothing') {
+    const size = clothingSizes[seed % clothingSizes.length];
+
+    return [
+      spec('Розмір', 'Size', size),
+      spec('Матеріали', 'Materials', 'Бавовна', 'Cotton'),
+      colorSpec,
+      manufacturer,
+      origin,
+    ];
+  }
+
+  if (categorySlug === 'electronics') {
+    return [
+      spec('Потужність', 'Power', `${200 + (seed % 8) * 100} Вт`, `${200 + (seed % 8) * 100} W`),
+      colorSpec,
+      spec('Вага', 'Weight', `${1 + (seed % 6)} кг`, `${1 + (seed % 6)} kg`),
+      manufacturer,
+      origin,
+    ];
+  }
+
+  if (categorySlug === 'lighting') {
+    return [
+      spec('Потужність', 'Power', `${6 + (seed % 5) * 2} Вт`, `${6 + (seed % 5) * 2} W`),
+      spec('Матеріали', 'Materials', 'Метал, скло', 'Metal, glass'),
+      colorSpec,
+      manufacturer,
+    ];
+  }
+
+  if (categorySlug === 'power') {
+    return [
+      spec('Ємність', 'Capacity', `${256 + (seed % 4) * 256} Вт·год`, `${256 + (seed % 4) * 256} Wh`),
+      spec('Потужність', 'Power', `${300 + (seed % 5) * 200} Вт`, `${300 + (seed % 5) * 200} W`),
+      spec('Вага', 'Weight', `${4 + (seed % 8)} кг`, `${4 + (seed % 8)} kg`),
+      manufacturer,
+      origin,
+    ];
+  }
+
+  if (categorySlug === 'garden') {
+    return [
+      spec(
+        'Розміри',
+        'Dimensions',
+        `Ш ${40 + (seed % 20)} × Д ${30 + (seed % 15)} × В ${20 + (seed % 25)} см`,
+        `W ${40 + (seed % 20)} × D ${30 + (seed % 15)} × H ${20 + (seed % 25)} cm`,
+      ),
+      spec('Матеріали', 'Materials', 'Сталь, пластик', 'Steel, plastic'),
+      spec('Вага', 'Weight', `${2 + (seed % 12)} кг`, `${2 + (seed % 12)} kg`),
+      manufacturer,
+      origin,
+    ];
+  }
+
   return [
-    {
-      label: { uk: 'Виробник', en: 'Manufacturer' },
-      value: { uk: sellerName, en: sellerName },
-    },
-    {
-      label: { uk: 'Категорія', en: 'Category' },
-      value: category,
-    },
-    ...(location
-      ? [
-          {
-            label: { uk: 'Місто', en: 'City' },
-            value: { uk: location, en: location },
-          },
-        ]
-      : []),
+    spec(
+      'Розміри',
+      'Dimensions',
+      `Ш ${60 + (seed % 40)} × Д ${50 + (seed % 30)} × В ${40 + (seed % 50)} см`,
+      `W ${60 + (seed % 40)} × D ${50 + (seed % 30)} × H ${40 + (seed % 50)} cm`,
+    ),
+    spec('Матеріали', 'Materials', 'Тканина, дерево', 'Fabric, wood'),
+    colorSpec,
+    spec('Вага', 'Weight', `${8 + (seed % 25)} кг`, `${8 + (seed % 25)} kg`),
+    manufacturer,
+    origin,
   ];
 }
 
@@ -340,7 +577,11 @@ function detailFromCard(card: RelatedCard): ProductDetail {
     category: card.category,
     categorySlug: card.category.uk === tourism.uk ? 'tourism' : 'furniture',
     seller,
-    specs: specsFromMock(card.sellerName, card.category),
+    specs: specsForProduct(
+      card.id,
+      card.sellerName,
+      card.category.uk === tourism.uk ? 'tourism' : 'furniture',
+    ),
     similar,
     recent,
   };
@@ -393,7 +634,7 @@ function detailFromCatalog(product: (typeof catalogProducts)[number]): ProductDe
         : featured.pickup
       : undefined,
     description: featured.description,
-    specs: specsFromMock(product.sellerName, product.categoryName, product.location),
+    specs: specsForProduct(product.id, product.sellerName, product.categorySlug),
     similar: peers.slice(0, 5).map(toCard),
     recent: peers.slice(5, 10).map(toCard),
   };
@@ -465,7 +706,11 @@ function detailFromListing(product: HomeProduct, peers: HomeProduct[]): ProductD
     delivery: featured.delivery,
     pickup: location ?? featured.pickup,
     description: featured.description,
-    specs: specsFromMock(product.sellerName, product.categoryName, product.location),
+    specs: specsForProduct(
+      product.id,
+      product.sellerName,
+      categorySlugFromName(product.categoryName),
+    ),
     similar: similarCards.length > 0 ? similarCards : featured.similar,
     recent: recentCards.length > 0 ? recentCards : featured.recent,
   };

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ProductIcon } from '@/components/product/ProductIcon';
@@ -13,19 +13,46 @@ type ProductDetailsProps = {
   product: ProductDetail;
 };
 
+type ProductTab = 'description' | 'specs';
+
 export function ProductDetails({ product }: ProductDetailsProps) {
   const { t, i18n } = useTranslation();
-  const [tab, setTab] = useState<'description' | 'specs'>('description');
+  const [tab, setTab] = useState<ProductTab>('description');
   const [expanded, setExpanded] = useState(false);
+  const descriptionTabRef = useRef<HTMLButtonElement>(null);
+  const specsTabRef = useRef<HTMLButtonElement>(null);
   const locale = i18n.language;
   const description = product.description;
 
+  const selectTab = (next: ProductTab) => {
+    setTab(next);
+    (next === 'description' ? descriptionTabRef : specsTabRef).current?.focus();
+  };
+
   return (
     <section className="flex flex-col gap-4 xl:gap-7">
-      <div className="flex h-[49px] items-start gap-9 border-b border-(--color-dark-150)">
+      <div
+        role="tablist"
+        aria-label={`${t('pages.product.descriptionTab')} / ${t('pages.product.specsTab')}`}
+        className="flex h-[49px] items-start gap-9 border-b border-(--color-dark-150)"
+        onKeyDown={(event) => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+            return;
+          }
+
+          event.preventDefault();
+          selectTab(tab === 'description' ? 'specs' : 'description');
+        }}
+      >
         <button
+          ref={descriptionTabRef}
+          id="product-tab-description"
           type="button"
-          onClick={() => setTab('description')}
+          role="tab"
+          aria-selected={tab === 'description'}
+          aria-controls="product-panel-description"
+          tabIndex={tab === 'description' ? 0 : -1}
+          onClick={() => selectTab('description')}
           className={cn(
             'inline-flex h-full items-center text-sm leading-5',
             tab === 'description'
@@ -36,8 +63,14 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           {t('pages.product.descriptionTab')}
         </button>
         <button
+          ref={specsTabRef}
+          id="product-tab-specs"
           type="button"
-          onClick={() => setTab('specs')}
+          role="tab"
+          aria-selected={tab === 'specs'}
+          aria-controls="product-panel-specs"
+          tabIndex={tab === 'specs' ? 0 : -1}
+          onClick={() => selectTab('specs')}
           className={cn(
             'inline-flex h-full items-center text-sm leading-5',
             tab === 'specs'
@@ -49,8 +82,13 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:gap-16">
-        <div className="w-full xl:w-[752px] xl:shrink-0">
+      <div className="flex min-w-0 flex-col gap-4 xl:flex-row xl:items-start xl:gap-16">
+        <div
+          role="tabpanel"
+          id={tab === 'description' ? 'product-panel-description' : 'product-panel-specs'}
+          aria-labelledby={tab === 'description' ? 'product-tab-description' : 'product-tab-specs'}
+          className="w-full min-w-0 xl:w-[752px] xl:shrink-0"
+        >
           {tab === 'description' ? (
             <div className="flex flex-col gap-4 xl:gap-[18px]">
               {description ? (
@@ -102,7 +140,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                   <dt className="text-[11px] leading-normal text-(--color-dark-600)">
                     {localized(spec.label, locale)}
                   </dt>
-                  <dd className="text-xs leading-normal font-medium text-(--color-dark-800)">
+                  <dd className="text-xs leading-normal font-medium wrap-break-word text-(--color-dark-800)">
                     {localized(spec.value, locale)}
                   </dd>
                 </div>
@@ -111,7 +149,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           )}
         </div>
 
-        <aside className="flex flex-1 flex-col gap-3.5 rounded-xl bg-(--color-dark-100) px-[15px] py-[26px] xl:p-[26px]">
+        <aside className="flex min-w-0 flex-1 flex-col gap-3.5 rounded-xl bg-(--color-dark-100) px-[15px] py-[26px] xl:p-[26px]">
           <ProductIcon src="/image/product/shield.svg" width={29} height={29} />
           <h2 className="text-[18px] leading-normal font-semibold text-(--color-dark-800)">
             {t('pages.product.protectionTitle')}

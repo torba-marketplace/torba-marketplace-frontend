@@ -105,6 +105,10 @@ body {
     width: 1312px;
     transform: translateX(-50%);
   }
+
+  .checkout-frame {
+    padding-inline: 0;
+  }
 }
 
 .catalog-range {
