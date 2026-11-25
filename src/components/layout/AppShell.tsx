@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
@@ -15,7 +17,9 @@ export function AppShell({ children }: AppShellProps) {
         <Container className="flex flex-1 flex-col">{children}</Container>
       </main>
       <Footer />
-      <MobileBottomNav />
+      <Suspense fallback={null}>
+        <MobileBottomNav />
+      </Suspense>
     </div>
   );
 }
