@@ -27,6 +27,7 @@ import { Input } from '@/components/ui/Input';
 import { Logo } from '@/components/ui/Logo';
 import { featuredCategories } from '@/config/categories';
 import { defaultLocationId, findLocation } from '@/config/locations';
+import { useAccountPanel } from '@/lib/account-panel';
 import { useCart } from '@/lib/cart-store';
 import { countForm } from '@/lib/cart-summary';
 import { cn } from '@/lib/cn';
@@ -77,7 +78,8 @@ function focusVisibleSearch(
 
 export function Header() {
   const { t, i18n } = useTranslation();
-  const { isOpen: cartOpen, items, openCart } = useCart();
+  const { isOpen: cartOpen, items, openCart, closeCart } = useCart();
+  const { isOpen: accountOpen, openAccount, closeAccount } = useAccountPanel();
   const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const cartAriaLabel =
     cartCount > 0
@@ -244,9 +246,22 @@ export function Header() {
             label={t('nav.cart')}
             ariaLabel={cartAriaLabel}
             expanded={cartOpen}
-            onClick={openCart}
+            controlsId="cart-sidebar"
+            onClick={() => {
+              closeAccount();
+              openCart();
+            }}
           />
-          <HeaderAction icon={<User01 className="size-5" aria-hidden />} label={t('nav.account')} />
+          <HeaderAction
+            icon={<User01 className="size-5" aria-hidden />}
+            label={t('nav.account')}
+            expanded={accountOpen}
+            controlsId="account-sidebar"
+            onClick={() => {
+              closeCart();
+              openAccount();
+            }}
+          />
         </div>
       </Container>
 
@@ -366,12 +381,14 @@ function HeaderAction({
   ariaLabel,
   onClick,
   expanded,
+  controlsId,
 }: {
   icon: ReactNode;
   label: string;
   ariaLabel?: string;
   onClick?: () => void;
   expanded?: boolean;
+  controlsId?: string;
 }) {
   return (
     <button
@@ -379,7 +396,7 @@ function HeaderAction({
       className="inline-flex w-14 flex-col items-center gap-1 text-(--color-ink)"
       aria-label={ariaLabel}
       aria-expanded={expanded}
-      aria-controls={onClick ? 'cart-sidebar' : undefined}
+      aria-controls={controlsId}
       onClick={onClick}
     >
       {icon}

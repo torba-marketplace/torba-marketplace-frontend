@@ -10,7 +10,7 @@ import { useCart } from '@/lib/cart-store';
 import { cn } from '@/lib/cn';
 import type { CartSeller } from '@/types/cart';
 
-import type { DeliveryDraft, DeliveryMethodId } from './CheckoutDelivery';
+import type { DeliveryDestination, DeliveryDraft, DeliveryMethodId } from './CheckoutDelivery';
 import { ApplePaySheet } from './ApplePaySheet';
 import { GooglePaySheet } from './GooglePaySheet';
 import { formatUaPhone } from './phone';
@@ -89,6 +89,14 @@ function readCvv(current: string, next: string) {
   return digits(current + incoming, 3);
 }
 
+function formatDestination(destination: DeliveryDestination | undefined, branchPrefix: string) {
+  if (!destination?.city || !destination.branch) {
+    return undefined;
+  }
+
+  return `${destination.city} · ${branchPrefix} ${destination.branch}`;
+}
+
 function isCardReady(number: string, expiry: string, cvv: string) {
   const pan = number.replace(/\D/g, '');
   const exp = expiry.replace(/\D/g, '');
@@ -119,8 +127,8 @@ export function CheckoutPayment({ draft, onEdit }: CheckoutPaymentProps) {
   const singleOrder = orders.length === 1;
 
   return (
-    <div className="flex w-full flex-col items-start gap-8 xl:flex-row xl:gap-12">
-      <div className="flex w-full min-w-0 flex-1 flex-col gap-6">
+    <div className="flex w-full flex-col items-start gap-4 md:gap-8 xl:flex-row xl:gap-12">
+      <div className="flex w-full min-w-0 flex-1 flex-col gap-4 md:gap-6">
         <section className="flex flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-xl leading-[30px] font-medium text-(--color-dark-800)">{t('checkout.recipient')}</h2>
@@ -154,13 +162,14 @@ export function CheckoutPayment({ draft, onEdit }: CheckoutPaymentProps) {
               compact={singleOrder}
               seller={order.seller}
               method={draft.methods[order.seller.id]}
+              destination={formatDestination(draft.destinations?.[order.seller.id], t('checkout.branchPrefix'))}
             />
           ))}
         </section>
 
         <section className="flex flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6">
           <h2 className="text-xl leading-[30px] font-medium text-(--color-dark-800)">{t('checkout.steps.payment')}</h2>
-          <div role="radiogroup" aria-label={t('checkout.steps.payment')} className="grid gap-3 md:grid-cols-3">
+          <div role="radiogroup" aria-label={t('checkout.steps.payment')} className="grid grid-cols-1 gap-3 md:grid-cols-3">
             {methods.map((choice) => {
               const selected = method === choice.id;
 
@@ -208,7 +217,7 @@ export function CheckoutPayment({ draft, onEdit }: CheckoutPaymentProps) {
                 placeholder={t('checkout.cardNumberPlaceholder')}
                 onChange={(value) => setCardNumber(formatCardNumber(value))}
               />
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <CardField
                   label={t('checkout.expiry')}
                   name="cc-exp"
@@ -359,11 +368,13 @@ function ReceivingOrder({
   seller,
   method,
   compact,
+  destination,
 }: {
   number: number;
   seller: CartSeller;
   method?: DeliveryMethodId;
   compact: boolean;
+  destination?: string;
 }) {
   const { t } = useTranslation();
 
@@ -372,7 +383,7 @@ function ReceivingOrder({
       {compact ? (
         <SellerMark seller={seller} />
       ) : (
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h3 className="text-xl leading-[30px] font-medium text-(--color-dark-800)">
             {t('checkout.order', { number })}
           </h3>
@@ -393,7 +404,9 @@ function ReceivingOrder({
             <ProductIcon src="/icons/checkout/nova-poshta.png" width={20} height={20} />
             <p className="text-sm leading-5 font-semibold text-(--color-dark-800)">{t('checkout.novaPoshta')}</p>
           </div>
-          <p className="pl-[60px] text-sm leading-5 text-(--color-dark-600)">{t('checkout.novaDestination')}</p>
+          <p className="pl-[60px] text-sm leading-5 text-(--color-dark-600)">
+            {destination ?? t('checkout.novaDestination')}
+          </p>
         </div>
       ) : (
         <>
@@ -401,7 +414,9 @@ function ReceivingOrder({
             <ProductIcon src="/icons/checkout/nova-poshta.png" width={20} height={20} />
             <p className="text-sm leading-5 font-semibold text-(--color-dark-800)">{t('checkout.novaPoshta')}</p>
           </div>
-          <p className="text-sm leading-5 text-(--color-dark-600)">{t('checkout.novaDestination')}</p>
+          <p className="text-sm leading-5 text-(--color-dark-600)">
+            {destination ?? t('checkout.novaDestination')}
+          </p>
         </>
       )}
     </div>

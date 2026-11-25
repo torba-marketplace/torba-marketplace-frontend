@@ -55,10 +55,12 @@ export function CheckoutPage() {
 
   return (
     <div className="relative left-1/2 -mb-20 flex w-screen min-h-full flex-1 -translate-x-1/2 flex-col bg-(--color-primary-100) md:mb-0">
-      <div className="catalog-frame checkout-frame flex w-full flex-col gap-8 px-4 pt-8 pb-28 sm:px-6 md:pb-14 min-[1320px]:px-0">
+      <div className="catalog-frame checkout-frame flex w-full flex-col gap-4 px-4 pt-6 pb-8 sm:px-6 md:gap-8 md:pt-8 md:pb-14 min-[1320px]:px-0">
         <header className="flex flex-col gap-6">
-          <h1 className="text-display-sm font-medium text-(--color-dark-800)">{t('checkout.title')}</h1>
-          <ol aria-label={t('checkout.progress')} className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <h1 className="text-2xl leading-8 font-medium text-(--color-dark-800) md:text-display-sm">
+            {t('checkout.title')}
+          </h1>
+          <ol aria-label={t('checkout.progress')} className="hidden flex-wrap items-center gap-x-6 gap-y-3 md:flex">
             {steps.map((item, index) => {
               const currentIndex = steps.indexOf(step);
               const current = index === currentIndex;
@@ -92,13 +94,16 @@ export function CheckoutPage() {
         ) : step === 'delivery' ? (
           <CheckoutDelivery phone={phone} initial={delivery} onPay={onPay} />
         ) : (
-        <div className="flex w-full flex-col items-start gap-8 xl:flex-row xl:gap-12">
+        <div className="flex w-full flex-col items-start gap-4 md:gap-8 xl:flex-row xl:gap-12">
           <section className="flex w-full min-w-0 flex-1 flex-col gap-5 rounded-2xl bg-white px-4 py-4 sm:px-6">
-            <h2 className="text-xl leading-[30px] font-medium text-(--color-dark-800)">
+            <h2 className="text-xl leading-[30px] font-medium text-(--color-dark-800) md:hidden">
+              {t('checkout.recipient')}
+            </h2>
+            <h2 className="hidden text-xl leading-[30px] font-medium text-(--color-dark-800) md:block">
               {t('checkout.signInTitle')}
             </h2>
-            <div className="flex w-full flex-col items-center gap-4">
-              <form className="flex w-full max-w-80 flex-col items-center gap-4" onSubmit={onContinue} noValidate>
+            <div className="flex w-full flex-col items-stretch gap-4 md:items-center">
+              <form className="flex w-full flex-col items-stretch gap-4 md:max-w-80 md:items-center" onSubmit={onContinue} noValidate>
                 <div className="flex w-full flex-col gap-1.5">
                   <label htmlFor={phoneId} className="text-sm leading-5 font-medium text-(--color-dark-700)">
                     {t('checkout.phoneLabel')}
@@ -135,14 +140,18 @@ export function CheckoutPage() {
                 <Button type="submit" size="lg" className="w-full border border-(--color-primary-700)">
                   {t('checkout.continueGuest')}
                 </Button>
-                <p className="text-sm leading-5 font-medium text-(--color-dark-500)">{t('checkout.or')}</p>
-                <Button hierarchy="link" type="button" className="h-auto font-semibold">
+                <p className="text-left text-sm leading-5 font-medium text-(--color-dark-500) md:text-center">
+                  {t('checkout.or')}
+                </p>
+                <Button hierarchy="link" type="button" className="h-auto self-start font-semibold md:self-center">
                   {t('checkout.signIn')}
                 </Button>
                 <SocialSignIn icon="/icons/checkout/google.svg" label={t('checkout.google')} />
                 <SocialSignIn icon="/icons/checkout/apple.svg" label={t('checkout.apple')} />
               </form>
-              <p className="text-center text-xs leading-[18px] text-(--color-dark-600)">{t('checkout.phoneHint')}</p>
+              <p className="text-left text-xs leading-[18px] text-(--color-dark-600) md:text-center">
+                {t('checkout.phoneHint')}
+              </p>
             </div>
           </section>
 
