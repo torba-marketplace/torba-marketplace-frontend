@@ -1,15 +1,19 @@
 'use client';
 
 import { Heart, LayoutGrid01, User01 } from '@untitledui/icons';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { MegaMenu } from '@/components/layout/MegaMenu';
 import { Container } from '@/components/ui/Container';
+import { useAccountPanel } from '@/lib/account-panel';
 import { cn } from '@/lib/cn';
 
 export function MobileBottomNav() {
   const { t } = useTranslation();
+  const pathname = usePathname();
+  const { openAccount } = useAccountPanel();
   const rootRef = useRef<HTMLDivElement>(null);
   const [catalogOpen, setCatalogOpen] = useState(false);
 
@@ -37,6 +41,10 @@ export function MobileBottomNav() {
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [catalogOpen]);
+
+  if (pathname === '/checkout') {
+    return null;
+  }
 
   return (
     <div ref={rootRef} className="md:hidden">
@@ -84,6 +92,11 @@ export function MobileBottomNav() {
             <button
               type="button"
               className="flex flex-1 flex-col items-center justify-center gap-1 text-xs font-medium text-(--color-ink)"
+              aria-controls="account-sidebar"
+              onClick={() => {
+                setCatalogOpen(false);
+                openAccount();
+              }}
             >
               <User01 className="size-5" aria-hidden />
               {t('nav.account')}
