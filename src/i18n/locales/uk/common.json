@@ -10,6 +10,7 @@
     "searchPlaceholder": "Я шукаю...",
     "allCategories": "Всі категорії",
     "favorites": "Обране",
+    "mobile": "Навігація",
     "account": "Кабінет",
     "location": "Місто",
     "locationSearch": "Почніть вводити",
@@ -221,6 +222,11 @@
       "sellerInviteSubtitle": "Тисячі товарів на <brand>torbi</brand> чекають на тебе",
       "campaignCta": "Перейти",
       "sellerInviteCta": "Перейти в каталог"
+    },
+
+    "favorites": {
+      "title": "Обране",
+      "empty": "Тут з’являться товари, які ви збережете."
     },
 
     "catalog": {

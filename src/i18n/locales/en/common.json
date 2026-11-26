@@ -10,6 +10,7 @@
     "searchPlaceholder": "I'm looking for...",
     "allCategories": "All categories",
     "favorites": "Favorites",
+    "mobile": "Navigation",
     "account": "Account",
     "location": "City",
     "locationSearch": "Start typing",
@@ -221,6 +222,11 @@
       "sellerInviteSubtitle": "Thousands of products on <brand>torba</brand> are waiting for you",
       "campaignCta": "Go",
       "sellerInviteCta": "Go to catalog"
+    },
+
+    "favorites": {
+      "title": "Favorites",
+      "empty": "Items you save will show up here."
     },
 
     "catalog": {
