@@ -66,7 +66,7 @@ export function Footer() {
 
   return (
     <footer className="mt-auto border-t border-(--color-border) bg-(--color-canvas)">
-      <Container className="flex flex-col gap-10 pt-12 pb-6">
+      <Container className="flex flex-col gap-10 pt-12 pb-24 md:pb-6">
         <div className="grid gap-10 lg:grid-cols-[minmax(14rem,17rem)_repeat(3,minmax(0,1fr))] lg:gap-16">
           <div className="min-w-0">
             <Logo />

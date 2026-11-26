@@ -79,6 +79,22 @@ function readRecentSnapshot() {
   return window.localStorage.getItem(RECENT_KEY) ?? '';
 }
 
+function readFavoritesSnapshot() {
+  return window.localStorage.getItem(FAVORITES_KEY) ?? '[]';
+}
+
+export function useFavoriteIds(): string[] {
+  const raw = useSyncExternalStore(subscribeShopLists, readFavoritesSnapshot, () => '[]');
+
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+
+    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
 export function useRecentProductIds(): string[] {
   const raw = useSyncExternalStore(subscribeShopLists, readRecentSnapshot, () => '');
 

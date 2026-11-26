@@ -6,7 +6,7 @@ import {
   LayoutGrid01,
   MarkerPin01,
   SearchMd,
-  ShoppingCart01,
+  ShoppingBag01,
   User01,
 } from '@untitledui/icons';
 import {
@@ -362,7 +362,7 @@ function CartGlyph({ count }: { count: number }) {
 
   return (
     <span className="relative inline-flex">
-      <ShoppingCart01 className="size-5" aria-hidden />
+      <ShoppingBag01 className="size-5" aria-hidden />
       {count > 0 ? (
         <span
           aria-hidden
